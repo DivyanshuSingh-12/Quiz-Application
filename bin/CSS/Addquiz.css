@@ -1,0 +1,14 @@
+.text-area .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+
+#notificationLabel {
+    -fx-background-color: #018790;
+    -fx-text-fill: #F4F4F4;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-font-size: 18px;
+}

@@ -1,0 +1,11 @@
+.admin-default {
+    -fx-background-color: #018790;
+}
+
+.student-default {
+    -fx-background-color: #018790;
+}
+
+.selected {
+    -fx-background-color: #00B7B5;
+}

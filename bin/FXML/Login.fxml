@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.QuizLogin">
+   <children>
+      <VBox alignment="CENTER" layoutX="-76.8" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #005461;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="159.0" prefWidth="1280.0" text="QUIZ APPLICATION" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="96.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="50.0" />
+               </padding>
+            </Label>
+            <Label fx:id="LoginMsg" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="52.0" prefWidth="288.0" textFill="RED" VBox.vgrow="NEVER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <HBox alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="1366.0" VBox.vgrow="NEVER">
+               <children>
+                  <VBox fx:id="AdminVbox" alignment="CENTER_LEFT" fillWidth="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#Adminselected" prefHeight="410.0" prefWidth="450.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="43.0" prefWidth="380.0" text="Admin" textFill="WHITE">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="User" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="adminUser" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#Adminuserfieldclicked" prefHeight="45.0" prefWidth="350.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TextField>
+                        <Label text="Password" textFill="WHITE" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="adminPassword" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#adminPassclicked" prefHeight="45.0" prefWidth="350.0">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </PasswordField>
+                        <Button fx:id="adminLoginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#adminLogin" onMouseClicked="#adminLoginClicked" prefHeight="50.0" prefWidth="120.0" text="Login">
+                           <padding>
+                              <Insets bottom="3.0" left="20.0" right="20.0" top="3.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="120.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox fx:id="studentVbox" alignment="CENTER_LEFT" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#studentSelected" prefHeight="410.0" prefWidth="450.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="43.0" prefWidth="380.0" text="Student " textFill="#eaeaea">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label graphicTextGap="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="User" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="studentUser" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#studentUserclicked" prefHeight="45.0" prefWidth="350.0">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TextField>
+                        <Label text="Password" textFill="WHITE">
+                           <font>
+                              <Font size="30.0" />
+                           </font></Label>
+                        <PasswordField fx:id="studentPassword" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#studentPasswordclicked" prefHeight="46.0" prefWidth="350.0">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </PasswordField>
+                        <Button fx:id="stdLoginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#studentLogin" onMouseClicked="#studentLoginClicked" prefHeight="50.0" prefWidth="120.0" text="Login">
+                           <padding>
+                              <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="120.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <Label fx:id="signUp" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#signUp" prefHeight="52.0" prefWidth="288.0" text="Sign up" textFill="#00eeff">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="100.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="100.0" top="200.0" />
+         </padding>
+      </VBox>
+   </children>
+
+</AnchorPane>
