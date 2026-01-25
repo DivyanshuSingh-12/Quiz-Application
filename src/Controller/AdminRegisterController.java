@@ -109,10 +109,8 @@ public class AdminRegisterController {
             } else {
                 // Check if username already exists
                 if (UserDataSql.flag == false) {
-                    // SQL error other than duplicate
                     alertSql();
                 } else {
-                    // Username already exists
                     showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.");
                 }
             }

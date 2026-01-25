@@ -12,13 +12,11 @@ public class adminAnswer {
 	    // Static list to store all questions
 	    public static List<adminAnswer> questionList = new ArrayList<>();
 
-	    // Constructor
-	    public adminAnswer(Boolean correctopt1, Boolean correctopt2, Boolean correctopt3, Boolean correctopt4) {
+	   public adminAnswer(Boolean correctopt1, Boolean correctopt2, Boolean correctopt3, Boolean correctopt4) {
 	        this.ctopt1 = correctopt1;
 	        this.ctopt2 = correctopt2;
 	        this.ctopt3 = correctopt3;
 	        this.ctopt4 = correctopt4;
-
 
 	        // Add this question to the list automatically
 	        questionList.add(this);

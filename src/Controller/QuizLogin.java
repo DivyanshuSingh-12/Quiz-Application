@@ -2,6 +2,8 @@ package Controller;
 
 import javafx.fxml.FXML;
 import DataBase.LoginSession;
+import DataBase.StudentDataSql;
+import DataBase.StudentLoginSession;
 import DataBase.UserDataSql;
 import DataBase.jdbcConnection;
 import Constraints.Admin;
@@ -135,7 +137,7 @@ public class QuizLogin {
 	    String password = adminPassword.getText().trim();
 
 	    if (user.isEmpty() || password.isEmpty()) {
-	        LoginMsg.setText("Please enter username and password");
+	        LoginMsg.setText("Enter credentials");
 	        LoginMsg.setVisible(true);
 	        return;
 	    }
@@ -169,41 +171,42 @@ public class QuizLogin {
   
 
  
-    @FXML
-    private void studentLogin(ActionEvent event) {
-        String user = studentUser.getText().trim();
-        String password = studentPassword.getText().trim();
 
-        if (user.isEmpty() || password.isEmpty()) {
-            LoginMsg.setText("Please enter username and password");
-            LoginMsg.setVisible(true);
-            return;
-        }
-        jdbcConnection.createDatabase();
-        Student student = DataBase.StudentDataSql.getStudentByLogin(user, password);
+	  @FXML
+	    private void studentLogin(ActionEvent event) {
+	        String user = studentUser.getText().trim();
+	        String password = studentPassword.getText().trim();
 
-        if (student == null) {
-            LoginMsg.setText("Login Failed: Invalid credentials");
-            LoginMsg.setVisible(true);
-            return;
-        }
+	        if (user.isEmpty() || password.isEmpty()) {
+	            LoginMsg.setText("Enter credentials");
+	            LoginMsg.setVisible(true);
+	            return;
+	        }
 
+	        jdbcConnection.createDatabase();
+             // Fetch student from DB
+	        Student student = StudentDataSql.getStudentByLogin(user, password);
 
-        LoginMsg.setVisible(false);
+	        if (student == null) {
+	            LoginMsg.setText("Login Failed");
+	            LoginMsg.setVisible(true);
+	            return;
+	        }
 
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("User/FXML/studentPage.fxml"));
-            Scene scene = new Scene(root, 1366, 768);
-            Stage stage = (Stage) stdLoginBtn.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+	        // Store logged-in student in session
+	        StudentLoginSession.loggedStudent = student;
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    
+	        // Load student page
+	        try {
+	            Parent root = FXMLLoader.load(getClass().getResource("/UserFXML/studentPage.fxml"));
+	            Scene scene = new Scene(root, 1366, 768);
+	            Stage stage = (Stage) stdLoginBtn.getScene().getWindow();
+	            stage.setScene(scene);
+	            stage.show();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
     
     
     @FXML

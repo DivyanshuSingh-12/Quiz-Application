@@ -23,43 +23,36 @@ public class quizSql {
     public static Boolean flag = true; 
     
 
-    //CREATE TABLES 
-    public static void createQuizTables() {
 
+    public static void createQuizTables() {
         String quizTable =
                 "CREATE TABLE IF NOT EXISTS quiz (" +
                 "id INT AUTO_INCREMENT PRIMARY KEY," +
                 "title VARCHAR(200) NOT NULL)";
 
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
         		    		
              Statement stmt = conn.createStatement()) {
              stmt.executeUpdate(quizTable);
-             System.out.println("createQuizTables");
       
-        } catch (Exception e) {
+        } catch (Exception e) { 
             e.printStackTrace();
             error += quizTableError + "\n";
             flag = false;
         }
     }
     
-    //  INSERT QUIZ
+
     public static int  insertQuiz(String title) {
 
         String sql = "INSERT INTO quiz (title) VALUES (?)";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
 
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, title);
             ps.executeUpdate();
-            System.out.println("insertQuiz");
 
             ResultSet rs = ps.getGeneratedKeys();
             
@@ -101,14 +94,11 @@ public class quizSql {
     	        + ");";
 
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER, jdbcConnection.PASSWORD);
+    	  try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
         		
             Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(questionTable);
             
-            System.out.println("createQuestionTables");
-
         } catch (Exception e) {
             e.printStackTrace();
             error += QuestionTablesError + "\n";
@@ -119,13 +109,12 @@ public class quizSql {
     }
     
     
-    //  Insert Question
+
     public static int insertOneQuestion(int quizId, Question q) {
         String sql = "INSERT INTO questions (quiz_id, ques, opt1, opt2, opt3, opt4) "
         		+ "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, quizId);
@@ -136,7 +125,6 @@ public class quizSql {
             ps.setString(6, q.getOpttext4());
 
             ps.executeUpdate();
-            System.out.println("insertOneQuestion successfully!");
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -170,12 +158,9 @@ public class quizSql {
     		    + "REFERENCES questions(question_id) ON DELETE CASCADE" +
     		    ");";
 	        
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER, jdbcConnection.PASSWORD);
+    	  try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
             Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(answerTable);
-            System.out.println("createAnswerTables");
-
         } catch (Exception e) {
             e.printStackTrace();
             error += AnswerTablesError + "\n";
@@ -190,8 +175,7 @@ public static void insertAllAnswer(int questionId ,adminAnswer ans) {
     		+ "(question_id, opt1, opt2, opt3, opt4) "
     		+ "VALUES (?, ?, ?, ?, ?)";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-            jdbcConnection.USER, jdbcConnection.PASSWORD);) {
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);) {
 
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -202,8 +186,6 @@ public static void insertAllAnswer(int questionId ,adminAnswer ans) {
         pstmt.setBoolean(5, ans.getcorrectopt4());
         pstmt.executeUpdate();
         
-        System.out.println("insertAllAnswer successfully!");
-
     } catch (Exception e) {	
         e.printStackTrace();
         error += AnswerInsertionError + "\n";

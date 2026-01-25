@@ -16,7 +16,7 @@ public class studentPage {
 @FXML
 public void initialize() {
 	   try {
-	      Parent addHomeView  = FXMLLoader.load(getClass().getResource("/UserFXML/studentHome.fxml"));
+	      Parent addHomeView  = FXMLLoader.load(getClass().getResource("/UserFXML/studentProfile.fxml"));
 	      StudentProfile.setContent(addHomeView );
 	            
 	      Parent addResultView = FXMLLoader.load(getClass().getResource("/UserFXML/resultStudent.fxml"));

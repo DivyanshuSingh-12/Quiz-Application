@@ -165,4 +165,65 @@ public class StudentDataSql {
 
         return students;
     }
+
+public static boolean updateStudent(Student st) {
+    String sql = "UPDATE Students SET password = ?, firstName = ?, lastName = ?, contact = ?, gender = ? WHERE username = ?";
+
+    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+    		
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, st.getPassword());
+        ps.setString(2, st.getFirstName());
+        ps.setString(3, st.getLastName());
+        ps.setString(4, st.getContact());
+        ps.setString(5, st.getGender());
+        ps.setString(6, st.getUsername());  
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; 
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        flag = false;
+        return false;
+    }
+ }
+
+
+public static boolean deleteStudentByUsername(String username) {
+    String sql = "DELETE FROM Students WHERE username = ?";
+
+    try (Connection conn = DriverManager.getConnection(
+            jdbcConnection.dbURL,
+            jdbcConnection.USER,
+            jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, username);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; 
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        flag = false;
+        return false;
+    }
+    
+   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

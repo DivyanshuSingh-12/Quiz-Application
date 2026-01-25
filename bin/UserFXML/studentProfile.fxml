@@ -10,29 +10,19 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane cache="true" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #F4F4F4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane cache="true" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #F4F4F4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController.studentProfile">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" spacing="15.0" style="-fx-background-color: #F4F4F4;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="1366.0" spacing="60.0">
+            <HBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="1366.0" spacing="50.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="50.0" right="20.0" top="150.0" />
-                     </HBox.margin>
-                     <image>
-                        <Image url="@../../../../Pictures/TBH/762A0137.JPG" />
-                     </image>
-                  </ImageView>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="300.0" spacing="20.0">
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="446.0" spacing="20.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" wrappingWidth="293.8735656738281">
                            <font>
@@ -49,7 +39,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <TextField prefHeight="32.0" prefWidth="294.0" />
+                              <TextField fx:id="firstName" prefHeight="32.0" prefWidth="294.0" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -59,7 +49,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <TextField prefHeight="32.0" prefWidth="294.0" />
+                              <TextField fx:id="contact" prefHeight="32.0" prefWidth="294.0" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -69,7 +59,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <TextField prefHeight="32.0" prefWidth="294.0" />
+                              <TextField fx:id="userNmae" prefHeight="32.0" prefWidth="294.0" />
                            </children>
                         </VBox>
                      </children>
@@ -91,7 +81,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <TextField prefHeight="32.0" prefWidth="294.0" />
+                              <TextField fx:id="lastName" prefHeight="32.0" prefWidth="294.0" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -103,12 +93,7 @@
                               </Text>
                               <HBox prefHeight="30.0" prefWidth="309.0" spacing="8.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="Male">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="114.0" text="Female">
+                                    <RadioButton fx:id="maleOpt" mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="Male">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -116,7 +101,12 @@
                                           <ToggleGroup fx:id="StudentGender" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton layoutX="98.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Other">
+                                    <RadioButton fx:id="femaleOpt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="114.0" text="Female" toggleGroup="$StudentGender">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </RadioButton>
+                                    <RadioButton fx:id="OtherOpt" layoutX="98.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Other">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -135,24 +125,32 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <TextField prefHeight="32.0" prefWidth="294.0" />
+                              <TextField fx:id="password" prefHeight="32.0" prefWidth="294.0" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" layoutX="664.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="300.0" spacing="20.0">
+                  <VBox alignment="CENTER" layoutX="664.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="506.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Update" textFill="WHITE">
+                        <Label fx:id="updatenotification" alignment="CENTER" prefHeight="56.0" prefWidth="447.0" style="-fx-background-color: #005461;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <VBox.margin>
+                              <Insets bottom="80.0" top="-50.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updatebtnFun" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Update" textFill="WHITE">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="77.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Delete" textFill="WHITE">
+                        <Button fx:id="deleteBtn" layoutX="10.0" layoutY="77.0" mnemonicParsing="false" onAction="#deleteBtnFun" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Delete" textFill="WHITE">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="137.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Log Out" textFill="WHITE">
+                        <Button fx:id="logoutbtn" layoutX="10.0" layoutY="137.0" mnemonicParsing="false" onAction="#LogoutBtnFun" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: #005461;" text="Log Out" textFill="WHITE">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -162,10 +160,13 @@
                         <Insets />
                      </HBox.margin>
                      <padding>
-                        <Insets top="120.0" />
+                        <Insets top="90.0" />
                      </padding>
                   </VBox>
                </children>
+               <padding>
+                  <Insets left="80.0" />
+               </padding>
             </HBox>
             <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="1366.0">
                <children>

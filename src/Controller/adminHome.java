@@ -70,7 +70,7 @@ public class adminHome implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         setupGenderToggle();
-        loadAdminProfile();     // <-- CHANGED
+        loadAdminProfile();     
         loadQuizList();
         loadBarChart();
         loadPieChart();

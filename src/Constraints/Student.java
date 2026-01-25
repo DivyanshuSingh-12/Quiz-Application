@@ -10,12 +10,11 @@ public class Student {
     private String contact;
     private String gender;
 
-    // Constructor for admin-added student or student registration
-    // If password is null or empty, set password = username
+   
     public Student(int id, String username, String password, String firstName, String lastName, String contact, String gender) {
         this.id = id;
         this.username = username;
-        this.password = password; // default logic
+        this.password = password; 
         this.firstName = firstName;
         this.lastName = lastName;
         this.contact = contact;
@@ -24,7 +23,6 @@ public class Student {
 
    
 
-    // ---------------- Getters ----------------
     public int getId() { return id; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
@@ -33,7 +31,7 @@ public class Student {
     public String getContact() { return contact; }
     public String getGender() { return gender; }
 
-    // ---------------- Setters ----------------
+
     public void setId(int id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password;}

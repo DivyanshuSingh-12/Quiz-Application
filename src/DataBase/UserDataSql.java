@@ -27,7 +27,6 @@ public class UserDataSql {
                 jdbcConnection.USER, jdbcConnection.PASSWORD);
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(CreateAdminDataTable);
-            System.out.println("AdminData table created successfully");
         } catch (Exception e) {
             e.printStackTrace();
             flag = false;
@@ -52,7 +51,6 @@ public class UserDataSql {
                 }
             }
 
-            // 2. Insert new admin
             try (PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
                 pstmt.setString(1, adm.getUserId());
                 pstmt.setString(2, adm.getFirstName());
@@ -63,13 +61,12 @@ public class UserDataSql {
                 pstmt.setString(7, adm.getimagePath());
 
                 pstmt.executeUpdate();
-                System.out.println("Admin inserted successfully");
                 return true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Only false if some unexpected DB error occurs
+            return false; 
         }
     }
 
