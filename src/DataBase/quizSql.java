@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 import Constraints.Question;
 import Constraints.adminAnswer;
+import Constraints.quizSelection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -218,6 +219,34 @@ public static ObservableList<String> getQuizzesByAdmin(String adminId) {
 
     return quizzes;
 }
+
+public static ObservableList<quizSelection> getAllQuizzesForUser() {
+
+    ObservableList<quizSelection> list = FXCollections.observableArrayList();
+
+    String sql = "SELECT title, admin_id FROM quiz";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            list.add(
+                new quizSelection(
+                    rs.getString("admin_id"),   
+                    rs.getString("title"),      
+                    "NOT ATTEMPTED"              
+                )
+            );
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;   
+}
+
 
 }  
 

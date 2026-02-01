@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController.quizUser">
    <children>
-      <ScrollPane prefHeight="664.0" prefWidth="1227.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
             <Label alignment="CENTER" prefHeight="123.0" prefWidth="1366.0" text="Quiz">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-         </content>
-      </ScrollPane>
+            <TableView fx:id="quizTable" prefHeight="654.0" prefWidth="1366.0">
+              <columns>
+                <TableColumn fx:id="createdByCol" prefWidth="187.20001220703125" text="Created By" />
+                <TableColumn fx:id="quizTitleCol" prefWidth="1051.2000732421875" text="Quiz Title" />
+                  <TableColumn fx:id="statusCol" prefWidth="116.00018310546875" text="Status" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
