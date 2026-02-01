@@ -10,6 +10,8 @@ import java.sql.Statement;
 
 import Constraints.Question;
 import Constraints.adminAnswer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class quizSql {
 	public String Successful = "";  
@@ -25,10 +27,12 @@ public class quizSql {
 
 
     public static void createQuizTables() {
-        String quizTable =
-                "CREATE TABLE IF NOT EXISTS quiz (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY," +
-                "title VARCHAR(200) NOT NULL)";
+    	String quizTable =
+    		    "CREATE TABLE IF NOT EXISTS quiz (" +
+    		    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+    		    "title VARCHAR(200) NOT NULL, " +
+    		    "admin_id VARCHAR(100) NOT NULL" +
+    		    ")";
 
 
         try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
@@ -44,14 +48,14 @@ public class quizSql {
     }
     
 
-    public static int  insertQuiz(String title) {
+    public static int  insertQuiz(String title,String string) {
 
-        String sql = "INSERT INTO quiz (title) VALUES (?)";
-
+        String sql = "INSERT INTO quiz (title, admin_id) VALUES (?, ?)";
         try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
 
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, title);
+            ps.setString(2, string);
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -191,6 +195,28 @@ public static void insertAllAnswer(int questionId ,adminAnswer ans) {
         error += AnswerInsertionError + "\n";
         flag = false;
     }
+}
+
+public static ObservableList<String> getQuizzesByAdmin(String adminId) {
+    ObservableList<String> quizzes = FXCollections.observableArrayList();
+
+    String sql = "SELECT title FROM quiz WHERE admin_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, adminId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            quizzes.add(rs.getString("title"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return quizzes;
 }
 
 }  

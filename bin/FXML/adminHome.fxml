@@ -182,6 +182,7 @@
                                                       <Button fx:id="updatebtn" mnemonicParsing="false" onAction="#updateBtnFun" prefHeight="26.0" prefWidth="131.0" text="Update" />
                                                       <Button fx:id="deletebtn" layoutX="80.0" layoutY="90.0" lineSpacing="50.0" mnemonicParsing="false" onAction="#deleteBtnFun" prefHeight="26.0" prefWidth="131.0" text="Delete" />
                                                       <Button fx:id="logoutbtn" mnemonicParsing="false" onAction="#logoutBtnFun" prefHeight="26.0" prefWidth="131.0" text="Log Out" />
+                                                      <Button fx:id="refreshBtn" layoutX="53.0" layoutY="136.0" mnemonicParsing="false" onAction="#refreshBtnFun" prefHeight="26.0" prefWidth="131.0" text="Refresh" />
                                                    </children>
                                                    <HBox.margin>
                                                       <Insets />
@@ -301,7 +302,7 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <ListView fx:id="QuizList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="371.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ListView fx:id="QuizList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="332.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

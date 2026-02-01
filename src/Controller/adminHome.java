@@ -5,6 +5,7 @@ import DataBase.LoginSession;
 import DataBase.StudentDataSql;
 // <-- adjust if your DAO class name differs
 import DataBase.UserDataSql;
+import DataBase.quizSql;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +50,7 @@ public class adminHome implements Initializable {
     @FXML private ListView<String> QuizList;
     @FXML private BarChart<String, Number> barChart;
     @FXML private PieChart pieChart;
-
+    @FXML private Button refreshBtn;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -167,7 +168,10 @@ public class adminHome implements Initializable {
     }
 
     
-    
+    @FXML
+    private void refreshBtnFun(ActionEvent event) {
+        loadQuizList();
+    }
     
     
     
@@ -182,15 +186,11 @@ public class adminHome implements Initializable {
     
     
     private void loadQuizList() {
-        ObservableList<String> quizzes = FXCollections.observableArrayList(
-                "Java Basics",
-                "OOP Concepts",
-                "DBMS",
-                "Operating Systems",
-                "Computer Networks"
-        );
+        Admin admin = LoginSession.loggedAdmin;
+        ObservableList<String> quizzes = quizSql.getQuizzesByAdmin(admin.getUserId());
         QuizList.setItems(quizzes);
     }
+
 
     private void loadBarChart() {
 

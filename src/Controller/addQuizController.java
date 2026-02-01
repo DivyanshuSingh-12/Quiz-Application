@@ -1,11 +1,12 @@
 package Controller;
 
 import Constraints.Question;
+import Constraints.Admin;
 import Constraints.adminAnswer;
+import DataBase.LoginSession;
 import DataBase.jdbcConnection;
 import DataBase.quizSql;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -109,13 +110,20 @@ public class addQuizController {
             alert("No Questions", "Please add at least one question");
             return;
         }
-
+        
+        Admin admin = LoginSession.loggedAdmin;
+        if (admin == null) {
+            alert("Error", "No admin logged in");
+            return;
+        }
+        
         jdbcConnection.createDatabase();
         quizSql.createQuizTables();
         quizSql.createQuestionTables();
         quizSql.createAnswerTables();
 
-        int quizId = quizSql.insertQuiz(quizTitle.getText().trim());
+        //int quizId = quizSql.insertQuiz(quizTitle.getText().trim());
+        int quizId = quizSql.insertQuiz(quizTitle.getText().trim(), admin.getUserId());
 
         for (Question q : questionStore.getAllQuestions()) {
 
