@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.File;
+import java.util.Optional;
 
 import Constraints.Admin;
 import Constraints.Question;
@@ -9,8 +10,13 @@ import DataBase.jdbcConnection;
 import DataBase.quizSql;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -89,7 +95,7 @@ public class AdminRegisterController {
 
 
         if (firstName.isEmpty() || lastName.isEmpty() || contact.isEmpty() || userId.isEmpty() ||password.isEmpty() || selectedGender == null) {
-            showAlert("Validation Error", "Please fill all fields");
+            showAlert("Validation Error", "Please fill all fields",false);
             return;
         }else {
         	String  gender = selectedGender.getText();
@@ -104,14 +110,14 @@ public class AdminRegisterController {
             boolean inserted = UserDataSql.insertAdmin(adm);
             
             if (inserted) {
-                showAlert("Success", "Admin registered successfully");
+            	 showAlert("Success", "Admin registered successfully", true);
                 clearFrom();
             } else {
                 // Check if username already exists
                 if (UserDataSql.flag == false) {
                     alertSql();
                 } else {
-                    showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.");
+                    showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.",false);
                 }
             }
             }
@@ -145,13 +151,42 @@ public class AdminRegisterController {
     }
     
 
-    private void showAlert(String title, String message) {
+    private void showAlert(String title, String message, boolean goToLogin) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        if (goToLogin) {
+            ButtonType loginBtn = new ButtonType("Go to Login");
+            alert.getButtonTypes().setAll(loginBtn);
+        }
+
         alert.showAndWait();
+
+        if (goToLogin) {
+            goToLoginPage();
+        }
     }
+
+    
+    private void goToLoginPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Login.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) AdminfirstName.getScene().getWindow();
+
+            Scene scene = new Scene(root, 1366, 768);
+            scene.getStylesheets().add(getClass().getResource("/CSS/Login.css").toExternalForm());
+            stage.setTitle("Quiz Application");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

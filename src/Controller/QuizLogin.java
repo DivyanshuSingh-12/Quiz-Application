@@ -212,7 +212,7 @@ public class QuizLogin {
     @FXML
     private void signUp(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/FXML/signup.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/FXML/Adminregister.fxml"));
             Stage stage = (Stage) signUp.getScene().getWindow();
             Scene scene = new Scene(root, 1366 , 768);
             stage.setScene(scene);
