@@ -46,7 +46,6 @@ public class UserDataSql {
                 checkStmt.setString(1, adm.getUserId());
                 ResultSet rs = checkStmt.executeQuery();
                 if (rs.next() && rs.getInt(1) > 0) {
-                    // Username exists, return false
                     return false;
                 }
             }
@@ -77,10 +76,7 @@ public class UserDataSql {
 
         String sql = "SELECT * FROM AdminData WHERE UserName = ? AND Password = ?";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -105,4 +101,48 @@ public class UserDataSql {
         }
         return null;
     }
+
+    
+    
+    public static boolean updateAdmin(Admin admin) {
+
+        String sql = "UPDATE AdminData SET FirstName=?, LastName=?, Contact=?, Gender=?, Password=?, ImagePath=? WHERE UserName=?";
+
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, admin.getFirstName());
+            ps.setString(2, admin.getLastName());
+            ps.setString(3, admin.getContact());
+            ps.setString(4, admin.getgender());
+            ps.setString(5, admin.getPassword());
+            ps.setString(6, admin.getimagePath());
+            ps.setString(7, admin.getUserId());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean deleteAdmin(String userId) {
+
+        String sql = "DELETE FROM AdminData WHERE UserName = ?";
+
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, userId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
