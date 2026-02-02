@@ -1,28 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController.quizUser">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="1366.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="123.0" prefWidth="1366.0" text="Quiz">
-               <font>
-                  <Font size="50.0" />
-               </font>
-            </Label>
-            <TableView fx:id="quizTable" prefHeight="654.0" prefWidth="1366.0">
-              <columns>
-                <TableColumn fx:id="createdByCol" prefWidth="187.20001220703125" text="Created By" />
-                <TableColumn fx:id="quizTitleCol" prefWidth="1051.2000732421875" text="Quiz Title" />
-                  <TableColumn fx:id="statusCol" prefWidth="116.00018310546875" text="Status" />
-              </columns>
-            </TableView>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="200.0" style="-fx-background-color: #005461;">
+               <children>
+                  <Label prefHeight="96.0" prefWidth="923.0" text="Quiz" textFill="#f4f4f4">
+                     <font>
+                        <Font name="System Bold" size="59.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="-100.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="80.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="96.0" prefWidth="518.0" spacing="6.0">
+                     <children>
+                        <Button fx:id="openBtn" mnemonicParsing="false" onAction="#openBtnFun" prefHeight="26.0" prefWidth="136.0" text="Open">
+                           <HBox.margin>
+                              <Insets bottom="20.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="deleteBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteBtnFun" prefHeight="26.0" prefWidth="136.0" text="Delete">
+                           <HBox.margin>
+                              <Insets bottom="20.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="refreshBtn" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#refreshBtnFun" prefHeight="26.0" prefWidth="136.0" text="Refresh">
+                           <HBox.margin>
+                              <Insets bottom="20.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <AnchorPane prefHeight="675.0" prefWidth="1366.0">
+               <children>
+                  <TableView fx:id="quizTable" layoutX="2.4" prefHeight="675.0" prefWidth="1366.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="createdByCol" maxWidth="483.199951171875" minWidth="286.39996337890625" prefWidth="286.39996337890625" text="Created By" />
+                      <TableColumn fx:id="quizTitleCol" maxWidth="1104.0000610351562" minWidth="950" prefWidth="1000.000610351562" text="Quiz Title" />
+                        <TableColumn fx:id="statusCol" maxWidth="1004.0000610351562" minWidth="286.39996337890625" prefWidth="286.39996337890625" text="Status" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
          </children>
       </VBox>
    </children>

@@ -220,11 +220,10 @@ public static ObservableList<String> getQuizzesByAdmin(String adminId) {
     return quizzes;
 }
 
+
 public static ObservableList<quizSelection> getAllQuizzesForUser() {
-
     ObservableList<quizSelection> list = FXCollections.observableArrayList();
-
-    String sql = "SELECT title, admin_id FROM quiz";
+    String sql = "SELECT id, title, admin_id FROM quiz";  
 
     try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
          PreparedStatement ps = conn.prepareStatement(sql);
@@ -233,9 +232,10 @@ public static ObservableList<quizSelection> getAllQuizzesForUser() {
         while (rs.next()) {
             list.add(
                 new quizSelection(
-                    rs.getString("admin_id"),   
-                    rs.getString("title"),      
-                    "NOT ATTEMPTED"              
+                    rs.getInt("id"),            
+                    rs.getString("admin_id"),
+                    rs.getString("title"),
+                    "NOT ATTEMPTED"
                 )
             );
         }
@@ -245,6 +245,22 @@ public static ObservableList<quizSelection> getAllQuizzesForUser() {
     }
 
     return list;   
+}
+
+public static boolean deleteQuiz(int quizId) {
+    String sql = "DELETE FROM quiz WHERE id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setInt(1, quizId);
+        int affectedRows = ps.executeUpdate();
+        return affectedRows > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
 }
 
 
