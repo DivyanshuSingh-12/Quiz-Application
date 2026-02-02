@@ -61,6 +61,7 @@ public class quizUser {
 
     private void openTestWindow(quizSelection quiz) {
         try {
+        	testSubmitted = false; // 🔴 RESET HERE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserFXML/Test.fxml"));
             AnchorPane root = loader.load();
 
