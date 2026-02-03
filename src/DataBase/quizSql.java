@@ -6,7 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import Constraints.Question;
 import Constraints.adminAnswer;
@@ -262,6 +263,36 @@ public static boolean deleteQuiz(int quizId) {
         return false;
     }
 }
+
+public static List<Question> getQuestionsByQuizId(int quizId) {
+    List<Question> list = new ArrayList<>();
+    String query = "SELECT * FROM questions WHERE quiz_id = ?";
+
+    try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+         PreparedStatement pst = con.prepareStatement(query)) {
+
+        pst.setInt(1, quizId);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            list.add(new Question(
+                rs.getString("ques"),
+                rs.getString("opt1"),
+                rs.getString("opt2"),
+                rs.getString("opt3"),
+                rs.getString("opt4"),
+                0 // default correct option, to be updated later
+            ));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        error += "Error fetching questions for quiz ID: " + quizId + "\n";
+    }
+
+    return list;
+}
+
 
 
 }  

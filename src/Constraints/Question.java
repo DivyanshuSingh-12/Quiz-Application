@@ -10,6 +10,8 @@ public class Question {
     private String opttxt3;
     private String opttxt4;
     private int correctOpt; 
+    
+    private int questionId; 
 
     private final ArrayList<Question> questions = new ArrayList<>();
 
@@ -46,7 +48,11 @@ public class Question {
     public ArrayList<Question> getAllQuestions() {
         return questions;
     }
-
+    
+    
+    public int getQuestionId() {
+        return questionId;
+    }
     // getters
     public String getQues() { return ques; }
     public String getOpttext1() { return opttxt1; }

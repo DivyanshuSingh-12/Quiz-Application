@@ -58,13 +58,23 @@ public class quizUser {
         }
         openTestWindow(selectedQuiz);
     }
+    
+
 
     private void openTestWindow(quizSelection quiz) {
         try {
         	testSubmitted = false; // 🔴 RESET HERE
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserFXML/Test.fxml"));
             AnchorPane root = loader.load();
+            
 
+            Test testController = loader.getController();
+            testController.setQuizId(quiz.getId()); //  quizId passed here
+            testController.setQuizUserController(this);           
+                        
+                        
+                        
+                        
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Test - " + quiz.getTitle());
@@ -74,7 +84,7 @@ public class quizUser {
             stage.setFullScreenExitKeyCombination(null);
 
             // Unified auto-submit listeners
-            AutoSubmitLogic(stage);
+            AutoSubmitLogic(stage, testController);
 
             stage.show();
 
@@ -84,31 +94,32 @@ public class quizUser {
         }
     }
 
-    private void AutoSubmitLogic(Stage stage) {
+    private void AutoSubmitLogic(Stage stage,Test testController) {
 
         stage.setOnCloseRequest(e -> {
             e.consume();
             submitTest(stage);
         });
 
-        stage.iconifiedProperty().addListener((obs, oldVal, isMinimized) -> {
-            if (isMinimized) submitTest(stage);
-        });
-
-        stage.focusedProperty().addListener((obs, oldVal, isFocused) -> {
-            if (!isFocused) submitTest(stage);
-        });
-
-        stage.fullScreenProperty().addListener((obs, oldVal, isFull) -> {
-            if (!isFull) submitTest(stage);
-        });
+        stage.iconifiedProperty().addListener((obs, oldVal, isMinimized) -> { if (isMinimized) submitTest(stage);});
+        stage.focusedProperty().addListener((obs, oldVal, isFocused) -> { if (!isFocused) submitTest(stage);});
+        stage.fullScreenProperty().addListener((obs, oldVal, isFull) -> {if (!isFull) submitTest(stage); });
     }
 
+    public void onTestSubmitted(int quizId) {
+             for (quizSelection qs : quizTable.getItems()) {
+                 if (qs.getId() == quizId) {
+                     qs.setStatus("ATTEMPTED");
+                     quizTable.refresh();
+                     break;
+                 }
+             }
+         }
 
     private void submitTest(Stage stage) {
         if (testSubmitted) return; // avoid multiple submissions
         testSubmitted = true;
-        showAlert(Alert.AlertType.INFORMATION, "Test Submitted", "Your test has been submitted automatically!");
+        showAlert(Alert.AlertType.INFORMATION, "Test Submitted", "Test submitted!");
         stage.close();
     }
 
