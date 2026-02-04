@@ -56,7 +56,7 @@ public class studentProfile implements Initializable {
             OtherOpt.setToggleGroup(StudentGender);
         }
 
-        loadStudentProfile(); //autofill
+        loadStudentProfile();
     }
 
 
@@ -77,9 +77,9 @@ public class studentProfile implements Initializable {
         }
     }
 
-    
     @FXML
     private void updatebtnFun() {
+
         String fName = firstName.getText();
         String lName = lastName.getText();
         String phone = contact.getText();
@@ -87,18 +87,19 @@ public class studentProfile implements Initializable {
         String pass = password.getText();
         String gender = getSelectedGender();
 
-        Student st = new Student(0,username, pass, fName,lName, phone,gender);
+        Student updatedStudent = new Student(StudentLoginSession.loggedStudent.getId(),username,pass,
+                fName,lName,phone,gender);
 
-        boolean updated = StudentDataSql.updateStudent(st);
+        boolean updated = StudentDataSql.updateStudent(updatedStudent);
 
         if (updated) {
+            StudentLoginSession.loggedStudent = updatedStudent;
             showUpdateNotification("Profile updated successfully!");
-            loadStudentProfile();
-        } else {
-            showUpdateNotification("Update failed!");
-        }     
+            loadStudentProfile(); 
+        } else showUpdateNotification("Update failed!");
     }
 
+ 
     @FXML
     private void deleteBtnFun() {
         String username = userNmae.getText();

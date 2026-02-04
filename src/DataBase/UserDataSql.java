@@ -34,6 +34,7 @@ public class UserDataSql {
     }
 
     public static boolean insertAdmin(Admin adm) {
+    	 CreateAdminDataTable() ;
         String checkSQL = "SELECT COUNT(*) FROM AdminData WHERE UserName = ?";
         String insertSQL = "INSERT INTO AdminData "
         		+ "(UserName, FirstName, LastName, Contact, Gender, Password, ImagePath) "

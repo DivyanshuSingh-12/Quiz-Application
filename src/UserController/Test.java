@@ -1,30 +1,36 @@
 package UserController;
 
+import DataBase.ResponseSql;
+import DataBase.StudentLoginSession;
 import DataBase.quizSql;
+import Constraints.Response;
 import Constraints.Question;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Test {
 
-    @FXML  private Label Question;
-    @FXML  private RadioButton resOpt1, resOpt2, resOpt3, resOpt4;
-    @FXML  private Button nextBtn, prevBtn, submitBtn;
+    @FXML private Label Question;
+    @FXML private RadioButton resOpt1, resOpt2, resOpt3, resOpt4;
+    @FXML private Button nextBtn, prevBtn, submitBtn;
+
     private List<Question> questions;
     private int currentIndex = 0;
     private int quizId;
+    private int userId;
 
     private ToggleGroup optionsGroup;
-
     private boolean testSubmitted = false;
-    
-    
 
+    private Map<Integer, Integer> userResponses = new HashMap<>();
     private quizUser quizUserController;
+
 
     public void setQuizId(int quizId) {
         this.quizId = quizId;
@@ -32,23 +38,27 @@ public class Test {
         showQuestion(0);
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public void setQuizUserController(quizUser controller) {
         this.quizUserController = controller;
     }
-    
-    
-    
-    
+
 
     private void loadQuestions() {
         questions = quizSql.getQuestionsByQuizId(quizId);
+
         if (questions.isEmpty()) {
             Question.setText("No questions found for this quiz.");
             nextBtn.setDisable(true);
             prevBtn.setDisable(true);
+            submitBtn.setDisable(true);
         }
     }
 
+    // ==================== SHOW QUESTION ====================
     private void showQuestion(int index) {
         if (questions.isEmpty()) return;
 
@@ -69,12 +79,41 @@ public class Test {
             optionsGroup.selectToggle(null); // reset selection
         }
 
+        // Restore previous selection if exists
+        int questionId = q.getQuestionId();
+        Integer savedOption = userResponses.get(questionId);
+        if (savedOption != null) {
+            switch (savedOption) {
+                case 1 -> resOpt1.setSelected(true);
+                case 2 -> resOpt2.setSelected(true);
+                case 3 -> resOpt3.setSelected(true);
+                case 4 -> resOpt4.setSelected(true);
+            }
+        }
+
         prevBtn.setDisable(index == 0);
         nextBtn.setDisable(index == questions.size() - 1);
     }
 
+   
+    private void saveCurrentResponse() {
+        Toggle selectedToggle = optionsGroup.getSelectedToggle();
+        if (selectedToggle == null) return;
+
+        int selectedOption = -1;
+        if (selectedToggle == resOpt1) selectedOption = 1;
+        else if (selectedToggle == resOpt2) selectedOption = 2;
+        else if (selectedToggle == resOpt3) selectedOption = 3;
+        else if (selectedToggle == resOpt4) selectedOption = 4;
+
+        int questionId = questions.get(currentIndex).getQuestionId();
+        userResponses.put(questionId, selectedOption);
+    }
+
+
     @FXML
     private void nextBtnFun() {
+        saveCurrentResponse();
         if (currentIndex < questions.size() - 1) {
             currentIndex++;
             showQuestion(currentIndex);
@@ -83,6 +122,7 @@ public class Test {
 
     @FXML
     private void prevBtnFun() {
+        saveCurrentResponse();
         if (currentIndex > 0) {
             currentIndex--;
             showQuestion(currentIndex);
@@ -98,18 +138,17 @@ public class Test {
         submitTest(stage);
     }
 
-
     public void submitTest(Stage stage) {
-        if (testSubmitted) return;
+        if (testSubmitted) return; 
         testSubmitted = true;
 
-        if (quizUserController != null) {
-            quizUserController.onTestSubmitted(quizId);
-        } 
+        saveCurrentResponse();
 
-       Platform.runLater(stage::close);
+        for (Map.Entry<Integer, Integer> entry : userResponses.entrySet()) {
+            Response r = new Response(userId, quizId, entry.getKey(), entry.getValue());
+            ResponseSql.insertStudentAnswer(r);
+        }
+        ResponseSql.markQuizAttempted(userId, quizId);
+        Platform.runLater(stage::close);
     }
-
-   
 }
-

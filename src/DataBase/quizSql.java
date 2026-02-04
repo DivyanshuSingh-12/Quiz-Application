@@ -51,7 +51,7 @@ public class quizSql {
     
 
     public static int  insertQuiz(String title,String string) {
-
+    	createQuizTables();
         String sql = "INSERT INTO quiz (title, admin_id) VALUES (?, ?)";
         try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
 
@@ -117,6 +117,7 @@ public class quizSql {
     
 
     public static int insertOneQuestion(int quizId, Question q) {
+    	createQuestionTables();
         String sql = "INSERT INTO questions (quiz_id, ques, opt1, opt2, opt3, opt4) "
         		+ "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -177,6 +178,7 @@ public class quizSql {
     
     
 public static void insertAllAnswer(int questionId ,adminAnswer ans) {
+	createAnswerTables();
     String sql = "INSERT INTO admin_answer  "
     		+ "(question_id, opt1, opt2, opt3, opt4) "
     		+ "VALUES (?, ?, ?, ?, ?)";
@@ -250,7 +252,6 @@ public static ObservableList<quizSelection> getAllQuizzesForUser() {
 
 public static boolean deleteQuiz(int quizId) {
     String sql = "DELETE FROM quiz WHERE id = ?";
-
     try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -264,6 +265,7 @@ public static boolean deleteQuiz(int quizId) {
     }
 }
 
+
 public static List<Question> getQuestionsByQuizId(int quizId) {
     List<Question> list = new ArrayList<>();
     String query = "SELECT * FROM questions WHERE quiz_id = ?";
@@ -276,12 +278,13 @@ public static List<Question> getQuestionsByQuizId(int quizId) {
 
         while (rs.next()) {
             list.add(new Question(
+                rs.getInt("question_id"),  
                 rs.getString("ques"),
                 rs.getString("opt1"),
                 rs.getString("opt2"),
                 rs.getString("opt3"),
                 rs.getString("opt4"),
-                0 // default correct option, to be updated later
+                0 
             ));
         }
 
@@ -292,7 +295,6 @@ public static List<Question> getQuestionsByQuizId(int quizId) {
 
     return list;
 }
-
 
 
 }  

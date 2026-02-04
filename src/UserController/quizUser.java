@@ -5,7 +5,11 @@ package UserController;
 import java.io.IOException;
 
 import Constraints.quizSelection;
+import DataBase.ResponseSql;
+import DataBase.StudentDataSql;
+import DataBase.StudentLoginSession;
 import DataBase.quizSql;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +38,6 @@ public class quizUser {
         quizTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Load data
         loadQuizzes();
 
         // Double-click row to open test
@@ -42,11 +45,20 @@ public class quizUser {
             TableRow<quizSelection> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getClickCount() == 2) {
-                    openTestWindow(row.getItem());
+                    quizSelection quiz = row.getItem();
+
+                    if ("ATTEMPTED".equals(quiz.getStatus())) {
+                        showAlert(Alert.AlertType.INFORMATION, "Already Attempted", 
+                                  "You have already submitted this quiz.");
+                        return;
+                    }
+
+                    openTestWindow(quiz);
                 }
             });
             return row;
         });
+
     }
 
     @FXML
@@ -54,6 +66,12 @@ public class quizUser {
         quizSelection selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
         if (selectedQuiz == null) {
             showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a quiz to open.");
+            return;
+        }
+        
+        if ("ATTEMPTED".equals(selectedQuiz.getStatus())) {
+            showAlert(Alert.AlertType.INFORMATION, "Already Attempted", 
+                      "You have already submitted this quiz.");
             return;
         }
         openTestWindow(selectedQuiz);
@@ -69,10 +87,12 @@ public class quizUser {
             
 
             Test testController = loader.getController();
-            testController.setQuizId(quiz.getId()); //  quizId passed here
-            testController.setQuizUserController(this);           
-                        
-                        
+            testController.setQuizId(quiz.getId()); 
+            testController.setQuizUserController(this); 
+            currentTestController = testController;
+            
+            testController.setUserId(StudentLoginSession.loggedStudent.getId());
+            
                         
                         
             Stage stage = new Stage();
@@ -83,7 +103,6 @@ public class quizUser {
             stage.setFullScreenExitHint("");
             stage.setFullScreenExitKeyCombination(null);
 
-            // Unified auto-submit listeners
             AutoSubmitLogic(stage, testController);
 
             stage.show();
@@ -93,40 +112,52 @@ public class quizUser {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the test window.");
         }
     }
+    
 
     private void AutoSubmitLogic(Stage stage,Test testController) {
 
         stage.setOnCloseRequest(e -> {
             e.consume();
-            submitTest(stage);
+            submitTest(stage); 
         });
 
-        stage.iconifiedProperty().addListener((obs, oldVal, isMinimized) -> { if (isMinimized) submitTest(stage);});
-        stage.focusedProperty().addListener((obs, oldVal, isFocused) -> { if (!isFocused) submitTest(stage);});
+        stage.iconifiedProperty().addListener((obs, oldVal, isMinimized) -> { if (isMinimized) submitTest(stage); });
+        stage.focusedProperty().addListener((obs, oldVal, isFocused) -> { if (!isFocused) submitTest(stage); });
         stage.fullScreenProperty().addListener((obs, oldVal, isFull) -> {if (!isFull) submitTest(stage); });
     }
 
-    public void onTestSubmitted(int quizId) {
-             for (quizSelection qs : quizTable.getItems()) {
-                 if (qs.getId() == quizId) {
-                     qs.setStatus("ATTEMPTED");
-                     quizTable.refresh();
-                     break;
-                 }
-             }
-         }
+
+    private Test currentTestController;
 
     private void submitTest(Stage stage) {
-        if (testSubmitted) return; // avoid multiple submissions
-        testSubmitted = true;
-        showAlert(Alert.AlertType.INFORMATION, "Test Submitted", "Test submitted!");
-        stage.close();
+        if (currentTestController != null) {
+            currentTestController.submitTest(stage); 
+            loadQuizzes();
+        }
     }
 
+    
+
     private void loadQuizzes() {
-        ObservableList<quizSelection> data = quizSql.getAllQuizzesForUser();
+        ObservableList<quizSelection> data = FXCollections.observableArrayList();
+        int userId = StudentLoginSession.loggedStudent.getId();
+
+        for (quizSelection qs : quizSql.getAllQuizzesForUser()) {
+            // Skip hidden quizzes for this user
+            if (StudentDataSql.isQuizHiddenForUser(qs.getId(), userId)) continue;
+
+            // Set attempt status
+            boolean attempted = ResponseSql.isQuizAttempted(qs.getId(), userId);
+            qs.setStatus(attempted ? "ATTEMPTED" : "NOT ATTEMPTED");
+
+            data.add(qs);
+        }
+
         quizTable.setItems(data);
+        quizTable.refresh();
     }
+
+
 
     @FXML
     public void refreshBtnFun() {
@@ -141,14 +172,17 @@ public class quizUser {
             return;
         }
 
-        boolean deleted = quizSql.deleteQuiz(selectedQuiz.getId());
-        if (deleted) {
+        int userId = StudentLoginSession.loggedStudent.getId();
+        boolean hidden = StudentDataSql.hideQuizForUser(userId, selectedQuiz.getId());
+
+        if (hidden) {
             showAlert(Alert.AlertType.INFORMATION, "Deleted", "Quiz deleted successfully.");
-            loadQuizzes();
+            loadQuizzes(); 
         } else {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete quiz.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to hide quiz.");
         }
     }
+
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);

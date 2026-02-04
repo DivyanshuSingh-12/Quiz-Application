@@ -13,7 +13,7 @@ public class StudentDataSql {
     
     public static void createStudentTable() {
 
-        String sql = "CREATE TABLE IF NOT EXISTS Students (" +
+        String sql = "CREATE TABLE IF NOT EXISTS Studentdata (" +
                      "id INT AUTO_INCREMENT PRIMARY KEY, " +
                      "username VARCHAR(200) NOT NULL UNIQUE, " +
                      "password VARCHAR(200) NOT NULL, " +
@@ -23,8 +23,7 @@ public class StudentDataSql {
                      "gender VARCHAR(50) NOT NULL" +
                      ")";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
                 jdbcConnection.USER,
                 jdbcConnection.PASSWORD);
              Statement stmt = conn.createStatement()) {
@@ -39,16 +38,14 @@ public class StudentDataSql {
 
 
     public static boolean insertStudent(Student st) {
+    	createStudentTable() ;
 
-        String checkSQL = "SELECT COUNT(*) FROM Students WHERE username = ?";
+        String checkSQL = "SELECT COUNT(*) FROM Studentdata WHERE username = ?";
         String insertSQL =
                 "INSERT INTO Students (username, password, firstName, lastName, contact, gender) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD)) {
 
        
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
@@ -81,12 +78,9 @@ public class StudentDataSql {
 
     public static Student getStudentByLogin(String username, String password) {
 
-        String sql = "SELECT * FROM Students WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM Studentdata WHERE username = ? AND password = ?";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -116,12 +110,9 @@ public class StudentDataSql {
 
     public static boolean deleteStudent(String username) {
 
-        String sql = "DELETE FROM Students WHERE username = ?";
+        String sql = "DELETE FROM Studentdata WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -138,12 +129,9 @@ public class StudentDataSql {
     public static ObservableList<Student> getAllStudents() {
 
         ObservableList<Student> students = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Students";
+        String sql = "SELECT * FROM Studentdata";
 
-        try (Connection conn = DriverManager.getConnection(
-                jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -167,7 +155,7 @@ public class StudentDataSql {
     }
 
 public static boolean updateStudent(Student st) {
-    String sql = "UPDATE Students SET password = ?, firstName = ?, lastName = ?, contact = ?, gender = ? WHERE username = ?";
+    String sql = "UPDATE Studentdata SET password = ?, firstName = ?, lastName = ?, contact = ?, gender = ? WHERE username = ?";
 
     try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
     		
@@ -192,12 +180,9 @@ public static boolean updateStudent(Student st) {
 
 
 public static boolean deleteStudentByUsername(String username) {
-    String sql = "DELETE FROM Students WHERE username = ?";
+    String sql = "DELETE FROM Studentdata WHERE username = ?";
 
-    try (Connection conn = DriverManager.getConnection(
-            jdbcConnection.dbURL,
-            jdbcConnection.USER,
-            jdbcConnection.PASSWORD);
+    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, username);
@@ -212,6 +197,60 @@ public static boolean deleteStudentByUsername(String username) {
     }
     
    }
+
+
+public static void createUserQuizHideTable() {
+    String sql = "CREATE TABLE IF NOT EXISTS user_quiz_hide (" +
+                 "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                 "user_id INT NOT NULL, " +
+                 "quiz_id INT NOT NULL, " +
+                 "UNIQUE(user_id, quiz_id)" +  
+                 ")";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+         Statement stmt = conn.createStatement()) {
+
+        stmt.executeUpdate(sql);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        flag = false;
+    }
+}
+
+
+	public static boolean isQuizHiddenForUser(int quizId, int userId) {
+		createUserQuizHideTable();
+	 String sql = "SELECT id FROM user_quiz_hide WHERE user_id = ? AND quiz_id = ?";
+	 try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	      PreparedStatement ps = conn.prepareStatement(sql)) {
+	     ps.setInt(1, userId);
+	     ps.setInt(2, quizId);
+	     try (ResultSet rs = ps.executeQuery()) {
+	         return rs.next();
+	     }
+	 } catch (Exception e) {
+	     e.printStackTrace();
+	 }
+	 return false;
+	}
+	
+
+	public static boolean hideQuizForUser(int userId, int quizId) {
+		createUserQuizHideTable();
+	 String sql = "INSERT IGNORE INTO user_quiz_hide (user_id, quiz_id) VALUES (?, ?)";
+	 try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	      PreparedStatement ps = conn.prepareStatement(sql)) {
+	     ps.setInt(1, userId);
+	     ps.setInt(2, quizId);
+	     ps.executeUpdate();
+	     return true;
+	 } catch (Exception e) {
+	     e.printStackTrace();
+	     return false;
+	 }
+	}
+
 }
 
 
