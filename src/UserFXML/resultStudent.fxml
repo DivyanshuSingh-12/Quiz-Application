@@ -8,16 +8,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserController.resultStudent">
    <children>
       <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1366.0" spacing="20.0" style="-fx-background-color: #018790;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <TableView fixedCellSize="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1366.0">
+            <TableView fx:id="QuizResult" fixedCellSize="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1366.0">
               <columns>
-                <TableColumn prefWidth="1046.4000854492188" text="Quiz Title" />
-                <TableColumn prefWidth="167.1998291015625" text="My Points" />
-                  <TableColumn minWidth="0.0" prefWidth="160.0" text="Total Points" />
+                <TableColumn fx:id="quizTitleCol" prefWidth="1046.4000854492188" text="Quiz Title" />
+                <TableColumn fx:id="myPointsCol" prefWidth="167.1998291015625" text="My Points" />
+                  <TableColumn fx:id="totalPointsCol" minWidth="0.0" prefWidth="160.0" text="Total Points" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -25,12 +24,12 @@
             </TableView>
             <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="1366.0" spacing="40.0">
                <children>
-                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="111.0" text="Delete" textAlignment="CENTER">
+                  <Button fx:id="exploreBtn" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exploreBtnFun" prefHeight="50.0" prefWidth="111.0" text="Explore" textAlignment="CENTER">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Button>
-                  <Button layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="111.0" text="Explore" textAlignment="CENTER">
+                  <Button fx:id="refreshBtn" layoutX="638.0" layoutY="12.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#refreshBtnFun" prefHeight="50.0" prefWidth="111.0" text="Refresh" textAlignment="CENTER">
                      <font>
                         <Font size="22.0" />
                      </font>

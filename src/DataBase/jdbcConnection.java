@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class jdbcConnection {
 
    // public static final String URL = "jdbc:mysql://localhost:3306";
-	public static final String URL = "jdbc:mysql://localhost:3306/quizdb?useSSL=false&serverTimezone=UTC";
+	public static final String URL = "jdbc:mysql://localhost:3306?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     
     public static final String USER = "root";
     public static final String PASSWORD = "root";
@@ -25,7 +25,7 @@ public class jdbcConnection {
             }
 
            // dbURL = URL + "/quizdb";
-           dbURL = "jdbc:mysql://localhost:3306/quizdb?useSSL=false&serverTimezone=UTC";
+           dbURL = "jdbc:mysql://localhost:3306/quizdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
             DriverManager.getConnection(dbURL, USER, PASSWORD);
 
         } catch (Exception e) {

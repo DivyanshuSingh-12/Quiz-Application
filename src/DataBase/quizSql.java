@@ -296,6 +296,84 @@ public static List<Question> getQuestionsByQuizId(int quizId) {
     return list;
 }
 
+public static ObservableList<quizSelection> getAttemptedQuizzes(int userId) {
+
+    ObservableList<quizSelection> list = FXCollections.observableArrayList();
+
+    String sql = """
+        SELECT DISTINCT q.id, q.title, q.admin_id
+        FROM quiz q
+        JOIN student_response sr ON q.id = sr.quiz_id
+        WHERE sr.user_id = ?
+    """;
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+         
+    	PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            list.add(
+                new quizSelection( rs.getInt("id"),rs.getString("admin_id"),rs.getString("title"),"ATTEMPTED"
+                )
+            );
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
+
+public static int getTotalQuestions(int quizId) {
+
+    String sql = "SELECT COUNT(*) FROM questions WHERE quiz_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    		
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, quizId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return 0;
+}
+
+public static String getQuizTitleById(int quizId) {
+
+    String title = null;
+    String query = "SELECT title FROM quiz WHERE quiz_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        PreparedStatement ps = conn.prepareStatement(query)
+    ) {
+        ps.setInt(1, quizId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            title = rs.getString("title");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return title;
+}
+
+
+
+
+
 
 }  
 

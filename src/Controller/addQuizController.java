@@ -105,6 +105,12 @@ public class addQuizController {
 
     @FXML
     private void SubmitBtnClicked(MouseEvent event) {
+    	
+    	 if (questionStore.size() == x) {
+    	        if (!validate()) return;
+    	        Question q = collectData();
+    	        questionStore.addQuestion(q);
+    	    }
 
         if (questionStore.size() == 0) {
             alert("No Questions", "Please add at least one question");

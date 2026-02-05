@@ -1,6 +1,8 @@
 package DataBase;
 
 import java.sql.*;
+
+
 import Constraints.Response;
 
 public class ResponseSql {
@@ -164,4 +166,65 @@ public class ResponseSql {
 
         return score;
     }
+    
+    public static int getSelectedOption(int userId, int quizId, int questionId) {
+
+        String sql = """
+            SELECT opt1, opt2, opt3, opt4
+            FROM student_response
+            WHERE user_id = ? AND quiz_id = ? AND question_id = ?
+        """;
+
+        try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+            
+        	PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, quizId);
+            ps.setInt(3, questionId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                if (rs.getBoolean("opt1")) return 1;
+                if (rs.getBoolean("opt2")) return 2;
+                if (rs.getBoolean("opt3")) return 3;
+                if (rs.getBoolean("opt4")) return 4;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1; 
+    }
+
+    public static int getCorrectOption(int questionId) {
+
+        String sql = "SELECT opt1, opt2, opt3, opt4 FROM admin_answer WHERE question_id = ?";
+
+        try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+             
+        	PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, questionId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                if (rs.getBoolean("opt1")) return 1;
+                if (rs.getBoolean("opt2")) return 2;
+                if (rs.getBoolean("opt3")) return 3;
+                if (rs.getBoolean("opt4")) return 4;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+
+    
+
 }
