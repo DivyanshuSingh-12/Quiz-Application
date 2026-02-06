@@ -38,28 +38,26 @@ public class StudentDataSql {
 
 
     public static boolean insertStudent(Student st) {
-    	createStudentTable() ;
+        createStudentTable();
 
         String checkSQL = "SELECT COUNT(*) FROM Studentdata WHERE username = ?";
-        String insertSQL =
-                "INSERT INTO Students (username, password, firstName, lastName, contact, gender) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO Studentdata (username, password, firstName, lastName, contact, gender) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD)) {
 
-       
+
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
                 checkStmt.setString(1, st.getUsername());
                 ResultSet rs = checkStmt.executeQuery();
                 if (rs.next() && rs.getInt(1) > 0) {
-                    return false; 
+                    return false;
                 }
             }
 
-            // insert student
-            try (PreparedStatement ps = conn.prepareStatement(insertSQL)) {
+           try (PreparedStatement ps = conn.prepareStatement(insertSQL)) {
                 ps.setString(1, st.getUsername());
-                ps.setString(2, st.getPassword()); 
+                ps.setString(2, st.getPassword());
                 ps.setString(3, st.getFirstName());
                 ps.setString(4, st.getLastName());
                 ps.setString(5, st.getContact());

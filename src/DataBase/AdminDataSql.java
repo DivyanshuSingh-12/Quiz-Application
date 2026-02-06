@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import Constraints.Admin;
 
-public class UserDataSql {
+public class AdminDataSql {
 	
 	public static Boolean flag = true; 
 

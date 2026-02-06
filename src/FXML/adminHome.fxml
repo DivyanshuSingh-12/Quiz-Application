@@ -223,7 +223,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalStudentLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -240,7 +240,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalQuizLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -257,7 +257,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalAttemptLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -274,7 +274,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="avrgScoreLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>

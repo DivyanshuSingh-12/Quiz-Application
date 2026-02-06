@@ -1,7 +1,8 @@
 package DataBase;
 
 import java.sql.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import Constraints.Response;
 
@@ -116,7 +117,6 @@ public class ResponseSql {
 
         try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, userId);
             ps.setInt(2, quizId);
 
@@ -225,6 +225,25 @@ public class ResponseSql {
     }
 
 
-    
+    public static List<Integer> getStudentIdsAttemptedQuiz(int quizId) {
+        List<Integer> studentIds = new ArrayList<>();
+        String sql = "SELECT DISTINCT user_id FROM student_response WHERE quiz_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                studentIds.add(rs.getInt("user_id"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return studentIds;
+    }
+
 
 }

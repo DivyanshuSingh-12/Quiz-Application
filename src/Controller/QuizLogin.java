@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import DataBase.LoginSession;
 import DataBase.StudentDataSql;
 import DataBase.StudentLoginSession;
-import DataBase.UserDataSql;
+import DataBase.AdminDataSql;
 import DataBase.jdbcConnection;
 import Constraints.Admin;
 import Constraints.Student;
@@ -52,7 +52,7 @@ public class QuizLogin {
     @FXML
     private void initialize() {
     	jdbcConnection.createDatabase();       
-        UserDataSql.CreateAdminDataTable();
+        AdminDataSql.CreateAdminDataTable();
         AdminVbox.getStyleClass().add("admin-default");
         studentVbox.getStyleClass().add("student-default");
     }
@@ -142,10 +142,10 @@ public class QuizLogin {
 	        return;
 	    }
 	    jdbcConnection.createDatabase();
-	    UserDataSql.CreateAdminDataTable();
+	    AdminDataSql.CreateAdminDataTable();
 
 
-	    Admin admin = UserDataSql.getAdminByLogin(user, password);
+	    Admin admin = AdminDataSql.getAdminByLogin(user, password);
 
 	    if (admin == null) {
 	        LoginMsg.setText("Login Failed");

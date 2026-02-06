@@ -1,0 +1,54 @@
+
+.chart-series-line {
+    -fx-stroke: #00B7B5;     
+}
+
+.chart-line-symbol {
+    -fx-background-color: #005461, white; 
+}
+
+.chart-bar {
+    -fx-bar-fill: #018790;
+}
+
+.chart-bar:hover {
+    -fx-bar-fill:#00B7B5;
+}
+
+.axis-label {
+    -fx-text-fill: #005461;
+    -fx-font-size: 13px;
+}
+
+.axis-tick-label {
+    -fx-text-fill: #005461;
+    -fx-font-size: 11px;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(0, 183, 181, 0.25);
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+
+.chart-legend-item-symbol.data0 {
+    -fx-background-color: #00B7B5;
+}
+
+.chart-legend-item-symbol.data1 {
+    -fx-background-color: #018790;
+}
+
+
+.chart-pie .data0 {
+    -fx-pie-color: #00B7B5;
+}
+
+.chart-pie .data1 {
+    -fx-pie-color: #018790;
+}
+

@@ -351,7 +351,8 @@ public static int getTotalQuestions(int quizId) {
 public static String getQuizTitleById(int quizId) {
 
     String title = null;
-    String query = "SELECT title FROM quiz WHERE quiz_id = ?";
+   // String query = "SELECT title FROM quiz WHERE quiz_id = ?";
+    String query = "SELECT title FROM quiz WHERE id = ?"; 
 
     try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
         PreparedStatement ps = conn.prepareStatement(query)
@@ -370,9 +371,110 @@ public static String getQuizTitleById(int quizId) {
     return title;
 }
 
+public static List<Integer> getAllQuizIds() {
+
+    List<Integer> quizIds = new ArrayList<>();
+    String sql = "SELECT id FROM quiz";
+
+    try (Connection conn = DriverManager.getConnection(
+            jdbcConnection.dbURL,
+            jdbcConnection.USER,
+            jdbcConnection.PASSWORD);
+         Statement st = conn.createStatement();
+         ResultSet rs = st.executeQuery(sql)) {
+
+        while (rs.next()) {
+            quizIds.add(rs.getInt("id"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return quizIds;
+}
 
 
+public static List<Integer> getAllQuizIdsByAdmin(String adminId) {
+    List<Integer> quizIds = new ArrayList<>();
+    String sql = "SELECT id FROM quiz WHERE admin_id = ?";
 
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, adminId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            quizIds.add(rs.getInt("id"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return quizIds;
+}
+
+
+public static int executeIntQuery(String sql, String param) {
+
+    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+         
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, param);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return 0;
+}
+
+
+public static int executeIntQuery(String sql) {
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+         
+    		
+    	 Statement st = conn.createStatement();
+         ResultSet rs = st.executeQuery(sql)) {
+
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return 0;
+}
+
+
+public static double executeDoubleQuery(String sql, String param) {
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        
+    	PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, param);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return 0.0;
+}
 
 
 }  

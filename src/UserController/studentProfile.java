@@ -3,23 +3,29 @@ package UserController;
 import Constraints.Student;
 import DataBase.StudentDataSql;
 import DataBase.StudentLoginSession;
-import DataBase.jdbcConnection;
+import DataBase.quizSql;
+import DataBase.ResponseSql;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class studentProfile implements Initializable {
@@ -42,12 +48,21 @@ public class studentProfile implements Initializable {
     @FXML private Button updateBtn;
     @FXML private Button deleteBtn;
     @FXML private Button logoutbtn;
+    @FXML private Button refreshBtn;
+
+
+    @FXML private PieChart performancePie;
+    @FXML private LineChart<String, Number> performanceLine;
+    @FXML private CategoryAxis quizNamesAxis;
+    @FXML private NumberAxis scoreAxis;
+
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+    	 
+    	
         updatenotification.setVisible(false);
 
         if (StudentGender != null) {
@@ -57,6 +72,8 @@ public class studentProfile implements Initializable {
         }
 
         loadStudentProfile();
+        loadPerformanceChart(); 
+        loadPerformanceLineChart();
     }
 
 
@@ -156,6 +173,96 @@ public class studentProfile implements Initializable {
         pause.setOnFinished(e -> updatenotification.setVisible(false));
         pause.play();
     }
+
+
+
+    private void loadPerformanceLineChart() {
+        if (StudentLoginSession.loggedStudent == null) return;
+
+        int studentId = StudentLoginSession.loggedStudent.getId();
+        List<Integer> quizzes = quizSql.getAllQuizIds();
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Scores");
+
+        int maxScore = 0;
+
+        for (int quizId : quizzes) {
+            String quizName = quizSql.getQuizTitleById(quizId);
+            int score = ResponseSql.evaluateQuiz(studentId, quizId);
+            series.getData().add(new XYChart.Data<>(quizName, score));
+
+            if (score > maxScore) maxScore = score;
+        }
+
+        performanceLine.getData().clear();
+        performanceLine.getData().add(series);
+
+        scoreAxis.setAutoRanging(false);
+        scoreAxis.setLowerBound(0);
+        scoreAxis.setUpperBound(maxScore + 1);
+        scoreAxis.setTickUnit(Math.max(1, (maxScore + 1) / 5.0));
+
+        performanceLine.getStylesheets().add(
+            getClass().getResource("/CSS/chartStyle.css").toExternalForm()
+        );
+    }
+
+    
+    private void loadPerformanceChart() {
+        if (StudentLoginSession.loggedStudent == null) return;
+
+        int studentId = StudentLoginSession.loggedStudent.getId();
+        List<Integer> quizzes = quizSql.getAllQuizIds(); 
+
+        int passCount = 0;
+        int failCount = 0;
+
+        for (int quizId : quizzes) {
+            int score = ResponseSql.evaluateQuiz(studentId, quizId);
+            int totalQuestions = quizSql.getTotalQuestions(quizId);
+            double percentage = (score * 100.0) / totalQuestions;
+
+            if (percentage >= 33) {
+                passCount++;
+            } else {
+                failCount++;
+            }
+        }
+
+        PieChart.Data passSlice = new PieChart.Data("Pass", passCount);
+        PieChart.Data failSlice = new PieChart.Data("Fail", failCount);
+        
+        performancePie.getData().clear();   
+        performancePie.getData().addAll(passSlice, failSlice);
+        
+        passSlice.getNode().setStyle("-fx-pie-color: #00B7B5;");
+        failSlice.getNode().setStyle("-fx-pie-color: #018790;");
+        performancePie.getStylesheets().add(
+                getClass().getResource("/css/chartStyle.css").toExternalForm()
+            );
+        
+
+        performancePie.applyCss();
+        performancePie.layout();
+        
+    }
+
+    @FXML
+    private void refreshBtnFun() {
+
+        if (StudentLoginSession.loggedStudent == null) return;
+
+        loadStudentProfile();
+        loadPerformanceLineChart();
+        loadPerformanceChart();
+
+        updatenotification.setText("Data refreshed successfully");
+    }
+
+
+
+
 
 
 }

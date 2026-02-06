@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import Constraints.Admin;
 import Constraints.Question;
-import DataBase.UserDataSql;
+import DataBase.AdminDataSql;
 import DataBase.jdbcConnection;
 import DataBase.quizSql;
 import javafx.animation.PauseTransition;
@@ -104,17 +104,17 @@ public class AdminRegisterController {
         	        : "/defaultprofile.jpg";
         	
         	jdbcConnection.createDatabase();
-        	UserDataSql.CreateAdminDataTable();
+        	AdminDataSql.CreateAdminDataTable();
             Admin adm = new Admin(firstName,lastName,contact,userId,password,gender,imagePath);
             
-            boolean inserted = UserDataSql.insertAdmin(adm);
+            boolean inserted = AdminDataSql.insertAdmin(adm);
             
             if (inserted) {
             	 showAlert("Success", "Admin registered successfully", true);
                 clearFrom();
             } else {
                 // Check if username already exists
-                if (UserDataSql.flag == false) {
+                if (AdminDataSql.flag == false) {
                     alertSql();
                 } else {
                     showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.",false);
