@@ -13,7 +13,8 @@ public class Question {
     private int questionId; 
 
     private final ArrayList<Question> questions = new ArrayList<>();
-
+    
+    
     public Question() {}
 
     
@@ -55,6 +56,17 @@ public class Question {
     public String getOpttext4() { return opttxt4; }
     public int getCorrectOpt() { return correctOpt; }
 
-   
+
+     // Setters
+    public void setQuestionId(int questionId) { this.questionId = questionId; }
+    public void setQues(String ques) { this.ques = ques; }
+    public void setOpttext1(String opttxt1) { this.opttxt1 = opttxt1; }
+    public void setOpttext2(String opttxt2) { this.opttxt2 = opttxt2; }
+    public void setOpttext3(String opttxt3) { this.opttxt3 = opttxt3; }
+    public void setOpttext4(String opttxt4) { this.opttxt4 = opttxt4; }
     public void setCorrectOpt(int correctOpt) { this.correctOpt = correctOpt; }
+    
+
+    
+    
 }

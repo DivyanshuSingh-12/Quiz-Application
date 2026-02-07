@@ -223,7 +223,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text fx:id="totalStudentLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalStudentLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="143.73681259155273">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -240,7 +240,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text fx:id="totalQuizLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalQuizLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="135.73672485351562">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -257,7 +257,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text fx:id="totalAttemptLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="totalAttemptLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="135.7366943359375">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -274,7 +274,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Text>
-                                                      <Text fx:id="avrgScoreLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="60.5367431640625">
+                                                      <Text fx:id="avrgScoreLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="234" textAlignment="CENTER" wrappingWidth="166.13671875">
                                                          <font>
                                                             <Font size="29.0" />
                                                          </font>
@@ -298,16 +298,20 @@
             </AnchorPane>
           <AnchorPane prefHeight="760.0" prefWidth="690.0">
                <children>
-                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.5290084388185653" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="328.0">
                            <children>
-                              <ListView fx:id="QuizList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="332.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="426.0" prefWidth="332.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <ListView fx:id="QuizList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="387.0" prefWidth="328.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="402.0" prefWidth="332.0">
                            <children>
-                              <PieChart fx:id="pieChart" layoutX="-84.0" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="378.0" title="Pass vs Fail" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <PieChart fx:id="pieChart" layoutX="-84.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="332.0" title="Pass vs Fail" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                     </items>

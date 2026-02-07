@@ -1,6 +1,7 @@
 package Controller;
 
 import Constraints.Admin;
+import Constraints.quizSelection;
 import DataBase.LoginSession;
 import DataBase.ResponseSql;
 import DataBase.AdminDataSql;
@@ -69,9 +70,19 @@ public class adminHome implements Initializable {
         loadPieChart();
         loadDashboardStats(); 
        updatenotification.setVisible(false);
+       
+       QuizList.setOnMouseClicked(event -> {
+    	    if (event.getClickCount() != 2) return;
+
+    	    String selectedTitle = QuizList.getSelectionModel().getSelectedItem();
+    	    if (selectedTitle == null) return; 
+
+    	    quizSelection quiz = quizSql.getQuizByTitle(selectedTitle);
+    	    if (quiz == null) return;
+    	    openUpdateQuizWindow(quiz); 
+    	});
 
     }
-
 
     private void setupGenderToggle() {
         ToggleGroup genderGroup = new ToggleGroup();
@@ -191,6 +202,9 @@ public class adminHome implements Initializable {
         ObservableList<String> quizzes = quizSql.getQuizzesByAdmin(admin.getUserId());
         QuizList.setItems(quizzes);
     }
+
+
+
 
 
     private void loadBarChart() {
@@ -321,9 +335,27 @@ public class adminHome implements Initializable {
         avrgScoreLabel.setText(String.format("%.2f", getAverageScore(adminId)));
     }
 
-    
-    
-    
+    private void openUpdateQuizWindow(quizSelection quiz) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/updateQuiz.fxml"));
+            Parent root = loader.load();
+
+            updateQuizController controller = loader.getController();
+            controller.setQuizData(quiz); 
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Update Quiz");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+   
+
+
     
     private void showUpdateNotification(String message) {
         updatenotification.setText(message);

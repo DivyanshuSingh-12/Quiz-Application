@@ -351,7 +351,6 @@ public static int getTotalQuestions(int quizId) {
 public static String getQuizTitleById(int quizId) {
 
     String title = null;
-   // String query = "SELECT title FROM quiz WHERE quiz_id = ?";
     String query = "SELECT title FROM quiz WHERE id = ?"; 
 
     try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
@@ -475,6 +474,132 @@ public static double executeDoubleQuery(String sql, String param) {
 
     return 0.0;
 }
+
+
+
+//////////////////////////////////UPDATE//////////////////////////////////////////////////
+public static quizSelection getQuizByTitle(String title) {
+    quizSelection quiz = null;
+    String query = "SELECT * FROM quiz WHERE title = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(query)) {
+
+        ps.setString(1, title);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int id = rs.getInt("id");
+            String adminId = rs.getString("admin_id");
+            String status = "NOT ATTEMPTED";
+            quiz = new quizSelection(id, adminId, title, status);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return quiz;
+}
+
+
+public static boolean updateQuiz(int quizId, String title, String adminId) {
+    String sql = "UPDATE quiz SET title = ?, admin_id = ? WHERE id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        
+    	PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, title);
+        ps.setString(2, adminId);
+        ps.setInt(3, quizId);
+
+        int rows = ps.executeUpdate();
+        return rows > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+
+public static boolean updateOneQuestion(int questionId, Question q) {
+    String sql = "UPDATE questions SET ques = ?, opt1 = ?, opt2 = ?, opt3 = ?, opt4 = ? WHERE question_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        
+    	PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, q.getQues());
+        ps.setString(2, q.getOpttext1());
+        ps.setString(3, q.getOpttext2());
+        ps.setString(4, q.getOpttext3());
+        ps.setString(5, q.getOpttext4());
+        ps.setInt(6, questionId);
+
+        int rows = ps.executeUpdate();
+        return rows > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+public static adminAnswer getAnswerByQuestionId(int questionId) {
+    createAnswerTables();
+    String sql = "SELECT * FROM admin_answer WHERE question_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+        
+    	PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, questionId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return new adminAnswer(
+                rs.getBoolean("opt1"),
+                rs.getBoolean("opt2"),
+                rs.getBoolean("opt3"),
+                rs.getBoolean("opt4")
+            );
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+
+public static void updateAllAnswer(int questionId, adminAnswer ans) {
+    createAnswerTables();
+    String sql = "UPDATE admin_answer SET opt1 = ?, opt2 = ?, opt3 = ?, opt4 = ? WHERE question_id = ?";
+
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+        
+    	PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setBoolean(1, ans.getcorrectopt1());
+        pstmt.setBoolean(2, ans.getcorrectopt2());
+        pstmt.setBoolean(3, ans.getcorrectopt3());
+        pstmt.setBoolean(4, ans.getcorrectopt4());
+        pstmt.setInt(5, questionId);
+
+        int rows = pstmt.executeUpdate();
+
+        if (rows == 0) {
+            insertAllAnswer(questionId, ans);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+
+
 
 
 }  
