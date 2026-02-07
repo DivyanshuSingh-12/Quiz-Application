@@ -21,6 +21,8 @@ public class AdminPage {
 	@FXML
 	private Tab addstudent;
 	
+	@FXML private Tab Quizzes;  
+	
 	@FXML
 	public void initialize() {
         try {
@@ -32,6 +34,9 @@ public class AdminPage {
             
             Parent addMainView = FXMLLoader.load(getClass().getResource("/FXML/adminHome.fxml"));
             Main.setContent(addMainView);
+            
+            Parent quizzesView = FXMLLoader.load(getClass().getResource("/FXML/manageQuizzes.fxml"));
+            Quizzes.setContent(quizzesView);
         } catch (IOException e) {
             e.printStackTrace();
         }

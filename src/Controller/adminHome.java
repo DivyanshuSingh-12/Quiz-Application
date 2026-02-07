@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.text.Text;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -94,9 +95,7 @@ public class adminHome implements Initializable {
 
 
     private void loadAdminProfile() {
-
         Admin admin = LoginSession.loggedAdmin;
-
         if (admin == null) return;
 
         firstName.setText(admin.getFirstName());
@@ -113,11 +112,20 @@ public class adminHome implements Initializable {
 
         if (admin.getimagePath() != null && !admin.getimagePath().isEmpty()) {
             File file = new File(admin.getimagePath());
-            if (file.exists()) {
-                profileImage.setImage(new Image(file.toURI().toString()));
-            }
-        }
+            
+            if (file.exists())  profileImage.setImage(new Image(file.toURI().toString()));
+            else loadDefaultProfileImage();
+            
+        } else loadDefaultProfileImage();
+        
     }
+
+    private void loadDefaultProfileImage() {
+    	InputStream is = getClass().getResourceAsStream("/defaultprofile.png");
+    	if (is != null) {profileImage.setImage(new Image(is));} 
+    }
+    
+
     
     
     @FXML

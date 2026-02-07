@@ -28,6 +28,9 @@ public class quizUser {
     @FXML private Button refreshBtn;
     @FXML private Button deleteBtn;
     @FXML private Button openBtn;
+    @FXML private TextField searchbar; 
+    @FXML private Button searchBtn;
+
 
     private boolean testSubmitted = false;
 
@@ -58,6 +61,8 @@ public class quizUser {
             });
             return row;
         });
+        
+        
 
     }
 
@@ -180,6 +185,36 @@ public class quizUser {
             loadQuizzes(); 
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to hide quiz.");
+        }
+    }
+
+    @FXML
+    private void searchBtnClicked() {
+        String query = searchbar.getText().trim().toLowerCase();
+        if (query.isEmpty()) {
+            loadQuizzes();
+            return;
+        }
+
+        ObservableList<quizSelection> filteredData = FXCollections.observableArrayList();
+        int userId = StudentLoginSession.loggedStudent.getId();
+
+        for (quizSelection qs : quizSql.getAllQuizzesForUser()) {
+            if (StudentDataSql.isQuizHiddenForUser(qs.getId(), userId)) continue;
+
+            if (qs.getTitle().toLowerCase().contains(query)) {
+                boolean attempted = ResponseSql.isQuizAttempted(qs.getId(), userId);
+                qs.setStatus(attempted ? "ATTEMPTED" : "NOT ATTEMPTED");
+                filteredData.add(qs);
+            }
+        }
+
+        if (filteredData.isEmpty()) {
+            showAlert(Alert.AlertType.INFORMATION, "No Results", "No quizzes found matching your search.");
+            loadQuizzes();
+        } else {
+            quizTable.setItems(filteredData);
+            quizTable.refresh();
         }
     }
 

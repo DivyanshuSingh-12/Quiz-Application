@@ -188,7 +188,7 @@
                   </Label>
                   <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="1366.0" spacing="25.0">
                      <children>
-                        <LineChart fx:id="performanceLine" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="324.0" prefWidth="683.0" style="-fx-alternative-column-fill-visible: #005461; -fx-stroke: #005461; -fx-alternative-row-fill-visible: #00B7B5;">
+                        <LineChart fx:id="performanceLine" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="324.0" prefWidth="683.0" >
                            <xAxis>
                               <CategoryAxis fx:id="quizNamesAxis" side="BOTTOM" tickLabelFill="#005461" />
                            </xAxis>

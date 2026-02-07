@@ -1,6 +1,7 @@
 package UserController;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import Constraints.QuizResult;
 import DataBase.ResponseSql;
@@ -12,9 +13,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -26,7 +29,8 @@ public class resultStudent {
     @FXML private TableColumn<QuizResult, Integer> totalPointsCol;
     @FXML private Button exploreBtn;
     @FXML private Button refreshBtn;
-
+    @FXML private TextField searchBar;
+    @FXML private Button searchBtn;
 
     private final ObservableList<QuizResult> list = FXCollections.observableArrayList();
 
@@ -86,9 +90,38 @@ public class resultStudent {
         }
     }
 
+    @FXML
+    private void searchBtnClicked() {
+        String query = searchBar.getText().trim().toLowerCase();
+        if (query.isEmpty()) {
+            loadData();
+            return;
+        }
+
+        ObservableList<QuizResult> filtered = list.stream()
+                .filter(q -> q.getQuizTitle().toLowerCase().contains(query))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+        if (filtered.isEmpty()) {
+            showAlert(Alert.AlertType.INFORMATION, "No Results", "No quizzes found matching your search.");
+            loadData();
+        } else {
+        	QuizResult.setItems(filtered);
+        	QuizResult.refresh();
+        }
+    }
 
     @FXML
     private void refreshBtnFun() {
         loadData();
+    }
+    
+    
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

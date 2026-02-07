@@ -53,7 +53,7 @@ public class AdminRegisterController {
 
     @FXML
     public void initialize() {
-    	adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.jpg")));
+    	adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.png")));
     }
 
 

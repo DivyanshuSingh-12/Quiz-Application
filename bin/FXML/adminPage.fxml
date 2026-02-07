@@ -18,6 +18,11 @@
               <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1366.0" />
             </content>
           </Tab>
+          <Tab fx:id="Quizzes" text="Quizzes">
+             <content>
+             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="200.0" />
+             </content>
+           </Tab>
           <Tab fx:id="addstudent" text="Add Student">
             <content>
               <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="200.0" />
