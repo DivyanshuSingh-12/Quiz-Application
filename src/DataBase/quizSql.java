@@ -597,6 +597,16 @@ public static void updateAllAnswer(int questionId, adminAnswer ans) {
     }
 }
 
+public static void deleteQuestionById(int questionId) {
+    String sql = "DELETE FROM questions WHERE question_id = ?";
+    try ( Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, questionId);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
 
 

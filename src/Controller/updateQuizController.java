@@ -194,6 +194,40 @@ public class updateQuizController {
         delay.play();
     }
 
+    @FXML
+    private void removeBtnClicked() {
+
+        if (questionStore == null || questionStore.isEmpty()) {
+            alert("Remove Error", "No question to remove");
+            return;
+        }
+
+        Question q = questionStore.get(x);
+
+        // 🔴 DELETE FROM DATABASE
+        if (q.getQuestionId() > 0) {
+            quizSql.deleteQuestionById(q.getQuestionId());
+        }
+
+        // 🔴 REMOVE FROM MEMORY
+        questionStore.remove(x);
+
+        // 🔴 FIX INDEX
+        if (x >= questionStore.size()) {
+            x = questionStore.size() - 1;
+        }
+
+        // 🔴 UPDATE UI
+        if (!questionStore.isEmpty() && x >= 0) {
+            loadData(questionStore.get(x));
+        } else {
+            clearForm();
+            x = 0;
+            questionNo.setText("Question 1");
+        }
+
+        showNotification("Question removed");
+    }
 
     private Question collectData() {
         int correctOpt = getSelectedOption();

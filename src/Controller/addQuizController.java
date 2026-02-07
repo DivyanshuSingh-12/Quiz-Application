@@ -153,6 +153,36 @@ public class addQuizController {
         alert("Success", "Quiz submitted successfully");
     }
 
+    @FXML
+    private void removeBtnClicked(MouseEvent event) {
+
+        if (questionStore.size() == 0) {
+            alert("Remove Error", "No question to remove");
+            return;
+        }
+
+        questionStore.removeQuestion(x);
+
+        if (x >= questionStore.size()) {
+            x = questionStore.size() - 1;
+        }
+
+        if (x >= 0 && questionStore.size() > 0) {
+            loadData(questionStore.getQuestion(x));
+        } else {
+            clearFrom();
+            x = 0;
+        }
+
+        updateQuestionNo();
+        showNotification();
+    }
+
+    
+    public void removeQuestion(int index) {
+    	questionStore.removeQuestion(x);
+
+    }
 
 
     private Question collectData() {
@@ -234,7 +264,7 @@ public class addQuizController {
     }
 
     private void showNotification() {
-        notificationLabel.setText("Question saved");
+        notificationLabel.setText("Question updated");
         notificationLabel.setVisible(true);
 
         PauseTransition p = new PauseTransition(Duration.seconds(2));

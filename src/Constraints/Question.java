@@ -46,7 +46,9 @@ public class Question {
     public void updateQuestion(int index, Question q) { questions.set(index, q); }
     public int size() { return questions.size(); }
     public ArrayList<Question> getAllQuestions() { return questions; }
-
+    public void removeQuestion(int index) {questions.remove(index); }   
+    
+    
     // Getters
     public int getQuestionId() { return questionId; }
     public String getQues() { return ques; }
