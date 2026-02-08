@@ -160,6 +160,11 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Button>
+                                          <Button fx:id="removeBtn" layoutX="701.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removeBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Remove" textFill="WHITE">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Button>
                                           <Button fx:id="addBtn" layoutX="83.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#AddBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Add" textFill="WHITE">
                                              <font>
                                                 <Font size="16.0" />

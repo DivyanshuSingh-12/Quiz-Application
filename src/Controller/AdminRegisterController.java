@@ -1,11 +1,14 @@
 package Controller;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Optional;
 
 import Constraints.Admin;
 import Constraints.Question;
 import DataBase.AdminDataSql;
+import DataBase.ResponseSql;
+import DataBase.StudentDataSql;
 import DataBase.jdbcConnection;
 import DataBase.quizSql;
 import javafx.animation.PauseTransition;
@@ -24,7 +27,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class AdminRegisterController {
 
@@ -50,12 +52,15 @@ public class AdminRegisterController {
     @FXML
     private Button AdminRegisterBtn;
 
+    private static final String DEFAULT_PROFILE = "/defaultprofile.png";
+
 
     @FXML
     public void initialize() {
-    	adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.png")));
+    	adminProfile.setImage(new Image(getClass().getResourceAsStream(DEFAULT_PROFILE)));
     }
-
+    
+ 
 
     @FXML
     private void adminprofileBtn() {
@@ -97,11 +102,21 @@ public class AdminRegisterController {
         if (firstName.isEmpty() || lastName.isEmpty() || contact.isEmpty() || userId.isEmpty() ||password.isEmpty() || selectedGender == null) {
             showAlert("Validation Error", "Please fill all fields",false);
             return;
-        }else {
-        	String  gender = selectedGender.getText();
-        	String imagePath = (selectedImageFile != null)
-        	        ? selectedImageFile.getAbsolutePath()
-        	        : "/defaultprofile.jpg";
+        }
+    
+		    String gender = selectedGender.getText();
+		    String imagePath;
+		    if (selectedImageFile != null) {
+		        imagePath = selectedImageFile.toURI().toString();
+		    } else {
+		        InputStream defaultImage = getClass().getResourceAsStream("/defaultprofile.png");
+		        if (defaultImage != null) {
+		            imagePath = getClass().getResource("/defaultprofile.png").toExternalForm();
+		        } else {
+		            imagePath = ""; 
+		            System.out.println("Default profile image not found, using empty path");
+		        }
+    
         	
         	jdbcConnection.createDatabase();
         	AdminDataSql.CreateAdminDataTable();
@@ -111,7 +126,7 @@ public class AdminRegisterController {
             
             if (inserted) {
             	 showAlert("Success", "Admin registered successfully", true);
-                clearFrom();
+                clearForm();
             } else {
                 // Check if username already exists
                 if (AdminDataSql.flag == false) {
@@ -120,11 +135,14 @@ public class AdminRegisterController {
                     showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.",false);
                 }
             }
+            
+ 
+
             }
         }
 
     
-    
+ 
     private void alertSql() {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Database Error");
@@ -134,7 +152,7 @@ public class AdminRegisterController {
   
    
 
-    private  void clearFrom() {
+    private  void clearForm() {
         AdminfirstName.clear();
         adminLastName.clear();
         adminContact.clear();
@@ -144,8 +162,13 @@ public class AdminRegisterController {
             AdminGender.getSelectedToggle().setSelected(false);
         }
 
-        adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.jpg")));
-
+        //adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.jpg")));
+        
+        adminProfile.setImage(
+                new Image(getClass().getResourceAsStream(DEFAULT_PROFILE))
+            );
+        
+        
         selectedImageFile = null;
    	
     }

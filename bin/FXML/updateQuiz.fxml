@@ -150,12 +150,17 @@
                                  <children>
                                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="1262.0" spacing="20.0">
                                        <children>
-                                          <Button fx:id="prvBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"  onMouseClicked="#prvBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Prev" textFill="WHITE">
+                                          <Button fx:id="prvBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#prvBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Prev" textFill="WHITE">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="updateBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"  onMouseClicked="#updateBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Update" textFill="WHITE">
+                                          <Button fx:id="updateBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#updateBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Update" textFill="WHITE">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="removeBtn" layoutX="701.0" layoutY="17.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removeBtnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #005461;" text="Remove" textFill="WHITE">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>

@@ -63,7 +63,7 @@ public class resultStudent {
             list.add(new QuizResult(quizId,title,myScore,totalPoints));       
            });
     }
-
+    
 
     @FXML
     private void exploreBtnFun() {

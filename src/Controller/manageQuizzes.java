@@ -21,15 +21,14 @@ public class manageQuizzes {
     @FXML private ListView<quizSelection> listresult;
     @FXML private Button updateBtn;
     @FXML private Button deleteBtn;
+    @FXML private Button refreshBtn;
+
 
     private ObservableList<quizSelection> quizList;
 
     @FXML
     public void initialize() {
-        // Load all quizzes initially
-        quizList = FXCollections.observableArrayList(quizSql.getAllQuizzesForUser());
-        listresult.setItems(quizList);
-
+    	 loadAllQuizzes();
         // Double click to open quiz for update
         listresult.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -106,6 +105,12 @@ public class manageQuizzes {
         }
     }
 
+    @FXML
+    private void refreshbtnClicked() {
+        loadAllQuizzes();
+    }
+
+    
     private void openUpdateQuizWindow(quizSelection quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/updateQuiz.fxml"));
@@ -124,6 +129,14 @@ public class manageQuizzes {
             showAlert("Error", "Failed to open update quiz window.");
         }
     }
+    
+    private void loadAllQuizzes() {
+        quizList = FXCollections.observableArrayList(
+                quizSql.getAllQuizzesForUser()
+        );
+        listresult.setItems(quizList);
+    }
+
 
     private void showAlert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

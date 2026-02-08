@@ -43,6 +43,11 @@
                         <Font name="Arial Bold" size="23.0" />
                      </font>
                   </Button>
+                  <Button fx:id="refreshBtn" layoutX="495.0" layoutY="22.0" mnemonicParsing="false" onMouseClicked="#refreshbtnClicked" prefHeight="44.0" prefWidth="143.0" style="-fx-background-color: #005461;" text="REFRESH" textFill="#f4f4f4">
+                     <font>
+                        <Font name="Arial Bold" size="23.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
          </children>
