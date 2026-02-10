@@ -33,8 +33,10 @@ public class quizSql {
     		    "CREATE TABLE IF NOT EXISTS quiz (" +
     		    "id INT AUTO_INCREMENT PRIMARY KEY, " +
     		    "title VARCHAR(200) NOT NULL, " +
-    		    "admin_id VARCHAR(100) NOT NULL" +
+    		    "admin_id VARCHAR(100) NOT NULL, " +
+    		    "status ENUM('OPEN','CLOSED') DEFAULT 'OPEN'" +
     		    ")";
+
 
 
         try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
@@ -607,6 +609,56 @@ public static void deleteQuestionById(int questionId) {
         e.printStackTrace();
     }
 }
+
+
+public static String getQuizStatus(int quizId) {
+    String status = null;
+    String sql = "SELECT status FROM quiz WHERE id = ?";
+    
+    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+         
+        ps.setInt(1, quizId);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                status = rs.getString("status");
+            }
+        }
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    return status; 
+}
+
+
+
+public static boolean closeQuiz(int quizId) {
+ String sql = "UPDATE quiz SET status='CLOSED' WHERE id=?";
+ try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+      PreparedStatement ps = conn.prepareStatement(sql)) {
+     ps.setInt(1, quizId);
+     return ps.executeUpdate() > 0;
+ } catch (Exception e) {
+     e.printStackTrace();
+     return false;
+ }
+}
+
+public static boolean openQuiz(int quizId) {
+ String sql = "UPDATE quiz SET status='OPEN' WHERE id=?";
+ try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+      PreparedStatement ps = conn.prepareStatement(sql)) {
+     ps.setInt(1, quizId);
+     return ps.executeUpdate() > 0;
+ } catch (Exception e) {
+     e.printStackTrace();
+     return false;
+ }
+}
+
+
 
 
 

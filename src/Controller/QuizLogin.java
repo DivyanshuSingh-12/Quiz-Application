@@ -1,7 +1,7 @@
 package Controller;
 
 import javafx.fxml.FXML;
-import DataBase.LoginSession;
+import DataBase.AdminLoginSession;
 import DataBase.StudentDataSql;
 import DataBase.StudentLoginSession;
 import DataBase.AdminDataSql;
@@ -152,7 +152,7 @@ public class QuizLogin {
 	        LoginMsg.setVisible(true);
 	        return;
 	    }
-	    LoginSession.loggedAdmin = admin;
+	    AdminLoginSession.loggedAdmin = admin;
 	    LoginMsg.setVisible(false);
 
 	    try {

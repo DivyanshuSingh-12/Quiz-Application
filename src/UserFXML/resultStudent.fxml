@@ -24,7 +24,7 @@
                   </Label>
                </children>
             </HBox>
-            <TableView fx:id="QuizResult" fixedCellSize="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="1366.0">
+            <TableView fx:id="studentResult" fixedCellSize="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="1366.0">
               <columns>
                 <TableColumn fx:id="quizTitleCol" prefWidth="1046.4000854492188" text="Quiz Title" />
                 <TableColumn fx:id="myPointsCol" prefWidth="167.1998291015625" text="My Points" />

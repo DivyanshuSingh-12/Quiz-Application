@@ -1,32 +1,21 @@
 package Constraints;
 
-public class QuizResult {
+public class quizResult {
+    private String userId;  
+    private String userName; 
+    private int score;
 
-    private int quizId;
-    private String quizTitle;
-    private int myPoints;
-    private int totalPoints;
-
-    public QuizResult(int quizId, String quizTitle, int myPoints, int totalPoints) {
-        this.quizId = quizId;
-        this.quizTitle = quizTitle;
-        this.myPoints = myPoints;
-        this.totalPoints = totalPoints;
+    public quizResult(String userId, String userName, int score) {
+        this.userId = userId;
+        this.userName = userName;
+        this.score = score;
     }
 
-    public int getQuizId() {
-        return quizId;
-    }
+    public String getUserId() { return userId; }
+    public String getUserName() { return userName; }
+    public int getScore() { return score; }
 
-    public String getQuizTitle() {
-        return quizTitle;
-    }
-
-    public int getMyPoints() {
-        return myPoints;
-    }
-
-    public int getTotalPoints() {
-        return totalPoints;
-    }
+    public void setUserId(String userId) { this.userId = userId; }
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setScore(int score) { this.score = score; }
 }

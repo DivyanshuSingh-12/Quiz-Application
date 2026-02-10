@@ -144,23 +144,26 @@ public class quizUser {
     
 
     private void loadQuizzes() {
+
         ObservableList<quizSelection> data = FXCollections.observableArrayList();
         int userId = StudentLoginSession.loggedStudent.getId();
 
         for (quizSelection qs : quizSql.getAllQuizzesForUser()) {
-            // Skip hidden quizzes for this user
-            if (StudentDataSql.isQuizHiddenForUser(qs.getId(), userId)) continue;
+            int quizId = qs.getId();
 
-            // Set attempt status
-            boolean attempted = ResponseSql.isQuizAttempted(qs.getId(), userId);
+            String quizStatus = quizSql.getQuizStatus(quizId);
+            if ("CLOSED".equalsIgnoreCase(quizStatus))  continue;
+            if (StudentDataSql.isQuizHiddenForUser(quizId, userId)) continue;
+
+            boolean attempted = ResponseSql.isQuizAttempted(quizId, userId);
             qs.setStatus(attempted ? "ATTEMPTED" : "NOT ATTEMPTED");
-
             data.add(qs);
         }
 
         quizTable.setItems(data);
         quizTable.refresh();
     }
+
 
 
 

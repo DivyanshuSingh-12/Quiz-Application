@@ -1,6 +1,9 @@
 package Controller;
 
+import java.util.List;
+
 import Constraints.quizSelection;
+import DataBase.AdminLoginSession;
 import DataBase.quizSql;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -131,9 +134,16 @@ public class manageQuizzes {
     }
     
     private void loadAllQuizzes() {
-        quizList = FXCollections.observableArrayList(
-                quizSql.getAllQuizzesForUser()
-        );
+        quizList = FXCollections.observableArrayList();
+
+        String adminId = AdminLoginSession.loggedAdmin.getUserId();
+        List<Integer> quizIds = quizSql.getAllQuizIdsByAdmin(adminId);
+        for (int quizId : quizIds) {
+            String title = quizSql.getQuizTitleById(quizId);
+            String status = quizSql.getQuizStatus(quizId);
+            quizList.add(new quizSelection(quizId,adminId,title,status));
+        }
+
         listresult.setItems(quizList);
     }
 

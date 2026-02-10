@@ -3,7 +3,7 @@ package Controller;
 import Constraints.Question;
 import Constraints.Admin;
 import Constraints.adminAnswer;
-import DataBase.LoginSession;
+import DataBase.AdminLoginSession;
 import DataBase.jdbcConnection;
 import DataBase.quizSql;
 import javafx.animation.PauseTransition;
@@ -117,7 +117,7 @@ public class addQuizController {
             return;
         }
         
-        Admin admin = LoginSession.loggedAdmin;
+        Admin admin = AdminLoginSession.loggedAdmin;
         if (admin == null) {
             alert("Error", "No admin logged in");
             return;

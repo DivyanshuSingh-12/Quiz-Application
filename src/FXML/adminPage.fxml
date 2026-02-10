@@ -28,6 +28,12 @@
               <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
+           <Tab fx:id="Result" text="Result">
+            <content>
+              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          
         </tabs>
       </TabPane>
    </children>

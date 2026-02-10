@@ -248,6 +248,38 @@ public static void createUserQuizHideTable() {
 	     return false;
 	 }
 	}
+	
+	public static String getUsernameById(int userId) {
+	    String sql = "SELECT username FROM Studentdata WHERE id = ?";
+	    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, userId);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getString("username");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return "Unknown";
+	}
+
+	public static String getStudentFullNameById(int userId) {
+	    String sql = "SELECT firstName, lastName FROM Studentdata WHERE id = ?";
+	    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, userId);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            return rs.getString("firstName") + " " + rs.getString("lastName");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return "Unknown";
+	}
+
+
 
 }
 

@@ -2,7 +2,7 @@ package Controller;
 
 import Constraints.Admin;
 import Constraints.quizSelection;
-import DataBase.LoginSession;
+import DataBase.AdminLoginSession;
 import DataBase.ResponseSql;
 import DataBase.AdminDataSql;
 import DataBase.quizSql;
@@ -95,7 +95,7 @@ public class adminHome implements Initializable {
 
 
     private void loadAdminProfile() {
-        Admin admin = LoginSession.loggedAdmin;
+        Admin admin = AdminLoginSession.loggedAdmin;
         if (admin == null) return;
 
         firstName.setText(admin.getFirstName());
@@ -131,7 +131,7 @@ public class adminHome implements Initializable {
     @FXML
     private void updateBtnFun(ActionEvent event) {
 
-        Admin admin = LoginSession.loggedAdmin;
+        Admin admin = AdminLoginSession.loggedAdmin;
         if (admin == null) return;
 
         admin.setFirstName(firstName.getText());
@@ -157,7 +157,7 @@ public class adminHome implements Initializable {
 
     @FXML
     private void deleteBtnFun(ActionEvent event) {
-         Admin admin = LoginSession.loggedAdmin;
+         Admin admin = AdminLoginSession.loggedAdmin;
          if (admin == null) return;
            boolean deleted =  AdminDataSql.deleteAdmin(admin.getUserId());
 
@@ -188,7 +188,7 @@ public class adminHome implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-            LoginSession.loggedAdmin = null;
+            AdminLoginSession.loggedAdmin = null;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,7 +206,7 @@ public class adminHome implements Initializable {
     }    
     
     private void loadQuizList() {
-        Admin admin = LoginSession.loggedAdmin;
+        Admin admin = AdminLoginSession.loggedAdmin;
         ObservableList<String> quizzes = quizSql.getQuizzesByAdmin(admin.getUserId());
         QuizList.setItems(quizzes);
     }
@@ -216,14 +216,14 @@ public class adminHome implements Initializable {
 
 
     private void loadBarChart() {
-        if (LoginSession.loggedAdmin == null) return;
+        if (AdminLoginSession.loggedAdmin == null) return;
 
         barChart.getData().clear();
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Quiz Attempts");
 
-        String adminId = LoginSession.loggedAdmin.getUserId();
+        String adminId = AdminLoginSession.loggedAdmin.getUserId();
         List<Integer> quizIds = quizSql.getAllQuizIdsByAdmin(adminId);
 
         for (int quizId : quizIds) {
@@ -244,9 +244,9 @@ public class adminHome implements Initializable {
 
 
     private void loadPieChart() {
-        if (LoginSession.loggedAdmin == null) return;
+        if (AdminLoginSession.loggedAdmin == null) return;
 
-        String adminId = LoginSession.loggedAdmin.getUserId();
+        String adminId = AdminLoginSession.loggedAdmin.getUserId();
         List<Integer> quizIds = quizSql.getAllQuizIdsByAdmin(adminId);
 
         int passCount = 0;
@@ -335,8 +335,8 @@ public class adminHome implements Initializable {
 
 
     private void loadDashboardStats() {
-        if (LoginSession.loggedAdmin == null) return;
-        String adminId = LoginSession.loggedAdmin.getUserId();
+        if (AdminLoginSession.loggedAdmin == null) return;
+        String adminId = AdminLoginSession.loggedAdmin.getUserId();
         totalQuizLabel.setText(String.valueOf(getTotalQuizzes(adminId)));
         totalAttemptLabel.setText(String.valueOf(getTotalAttempts(adminId)));
         totalStudentLabel.setText(String.valueOf(getTotalStudents()));

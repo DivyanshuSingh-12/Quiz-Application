@@ -3,7 +3,7 @@ package UserController;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-import Constraints.QuizResult;
+import Constraints.studentResult;
 import DataBase.ResponseSql;
 import DataBase.StudentLoginSession;
 import DataBase.quizSql;
@@ -23,16 +23,16 @@ import javafx.stage.Stage;
 
 public class resultStudent {
 
-    @FXML private TableView<QuizResult> QuizResult;
-    @FXML private TableColumn<QuizResult, String> quizTitleCol;
-    @FXML private TableColumn<QuizResult, Integer> myPointsCol;
-    @FXML private TableColumn<QuizResult, Integer> totalPointsCol;
+    @FXML private TableView<studentResult> studentResult;
+    @FXML private TableColumn<studentResult, String> quizTitleCol;
+    @FXML private TableColumn<studentResult, Integer> myPointsCol;
+    @FXML private TableColumn<studentResult, Integer> totalPointsCol;
     @FXML private Button exploreBtn;
     @FXML private Button refreshBtn;
     @FXML private TextField searchBar;
     @FXML private Button searchBtn;
 
-    private final ObservableList<QuizResult> list = FXCollections.observableArrayList();
+    private final ObservableList<studentResult> list = FXCollections.observableArrayList();
 
   
     @FXML
@@ -42,7 +42,7 @@ public class resultStudent {
         myPointsCol.setCellValueFactory(new PropertyValueFactory<>("myPoints"));
         totalPointsCol.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
 
-        QuizResult.setItems(list);
+        studentResult.setItems(list);
         loadData();
     }
 
@@ -60,14 +60,14 @@ public class resultStudent {
             int myScore = ResponseSql.evaluateQuiz(userId, quizId);
             int totalPoints = quizSql.getTotalQuestions(quizId);
 
-            list.add(new QuizResult(quizId,title,myScore,totalPoints));       
+            list.add(new studentResult(quizId,title,myScore,totalPoints));       
            });
     }
     
 
     @FXML
     private void exploreBtnFun() {
-        QuizResult selected = QuizResult.getSelectionModel().getSelectedItem();
+        studentResult selected = studentResult.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
         int quizId = selected.getQuizId();
@@ -98,7 +98,7 @@ public class resultStudent {
             return;
         }
 
-        ObservableList<QuizResult> filtered = list.stream()
+        ObservableList<studentResult> filtered = list.stream()
                 .filter(q -> q.getQuizTitle().toLowerCase().contains(query))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
@@ -106,8 +106,8 @@ public class resultStudent {
             showAlert(Alert.AlertType.INFORMATION, "No Results", "No quizzes found matching your search.");
             loadData();
         } else {
-        	QuizResult.setItems(filtered);
-        	QuizResult.refresh();
+        	studentResult.setItems(filtered);
+        	studentResult.refresh();
         }
     }
 

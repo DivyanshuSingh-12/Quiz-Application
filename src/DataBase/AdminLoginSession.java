@@ -2,6 +2,6 @@ package DataBase;
 
 import Constraints.Admin;
 
-public class LoginSession {
+public class AdminLoginSession {
     public static Admin loggedAdmin;
 }
