@@ -138,6 +138,7 @@ public class quizUser {
         if (currentTestController != null) {
             currentTestController.submitTest(stage); 
             loadQuizzes();
+            
         }
     }
 

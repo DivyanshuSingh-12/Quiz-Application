@@ -1,7 +1,6 @@
 package UserController;
 
 import DataBase.ResponseSql;
-import DataBase.StudentLoginSession;
 import DataBase.quizSql;
 import Constraints.Response;
 import Constraints.Question;
@@ -29,9 +28,7 @@ public class Test {
     private boolean testSubmitted = false;
 
     private Map<Integer, Integer> userResponses = new HashMap<>();
-    private quizUser quizUserController;
-
-
+    
     public void setQuizId(int quizId) {
         this.quizId = quizId;
         loadQuestions();
@@ -43,7 +40,6 @@ public class Test {
     }
 
     public void setQuizUserController(quizUser controller) {
-        this.quizUserController = controller;
     }
 
 
@@ -150,5 +146,13 @@ public class Test {
         }
         ResponseSql.markQuizAttempted(userId, quizId);
         Platform.runLater(stage::close);
+        showAlert(Alert.AlertType.INFORMATION, "Submitted", "Quiz submitted successfully.");
+    }
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
