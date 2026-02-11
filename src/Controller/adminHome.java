@@ -110,23 +110,29 @@ public class adminHome implements Initializable {
             default -> Other.setSelected(true);
         }
 
-        if (admin.getimagePath() != null && !admin.getimagePath().isEmpty()) {
-            File file = new File(admin.getimagePath());
-            
-            if (file.exists())  profileImage.setImage(new Image(file.toURI().toString()));
-            else loadDefaultProfileImage();
-            
-        } else loadDefaultProfileImage();
-        
+        profileImage.setImage(getAdminImage(admin.getimagePath()));
     }
 
-    private void loadDefaultProfileImage() {
-    	InputStream is = getClass().getResourceAsStream("/defaultprofile.png");
-    	if (is != null) {profileImage.setImage(new Image(is));} 
+    private Image getAdminImage(String path) {
+        try {
+            if (path != null && !path.isEmpty()) {
+                if (path.startsWith("/")) { 
+                    InputStream is = getClass().getResourceAsStream(path);
+                    if (is != null) return new Image(is);
+                } else { 
+                    File file = new File(path);
+                    if (file.exists()) return new Image(file.toURI().toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Image(getClass().getResourceAsStream("/defaultprofile.png"));
     }
-    
 
-    
+
+
+  
     
     @FXML
     private void updateBtnFun(ActionEvent event) {
@@ -236,9 +242,9 @@ public class adminHome implements Initializable {
 
         barChart.getData().add(series);
 
-        barChart.getStylesheets().add(
-            getClass().getResource("/CSS/chartStyle.css").toExternalForm()
-        );
+        URL barCss = getClass().getResource("/CSS/chartStyle.css");
+        if (barCss != null) barChart.getStylesheets().add(barCss.toExternalForm());
+        else System.out.println("chartStyle.css not found for BarChart!");
     }
 
 
@@ -275,9 +281,9 @@ public class adminHome implements Initializable {
         failSlice.getNode().setStyle("-fx-pie-color: #018790;");
 
 
-        pieChart.getStylesheets().add(
-            getClass().getResource("/css/chartStyle.css").toExternalForm()
-        );
+        URL pieCss = getClass().getResource("/CSS/chartStyle.css");
+        if (pieCss != null) pieChart.getStylesheets().add(pieCss.toExternalForm());
+        else System.out.println("chartStyle.css not found for PieChart!");
     
 
         pieChart.applyCss();

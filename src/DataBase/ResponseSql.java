@@ -26,7 +26,7 @@ public class ResponseSql {
             );
         """;
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              
         	Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
@@ -48,7 +48,7 @@ public class ResponseSql {
             );
         """;
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class ResponseSql {
                 opt4 = VALUES(opt4);
         """;
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, r.getUserId());
@@ -97,7 +97,7 @@ public class ResponseSql {
             ON DUPLICATE KEY UPDATE attempted = TRUE;
         """;
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, userId);
@@ -115,7 +115,7 @@ public class ResponseSql {
 
         String sql = "SELECT attempted FROM quiz_attempt WHERE user_id = ? AND quiz_id = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             ps.setInt(2, quizId);
@@ -143,7 +143,7 @@ public class ResponseSql {
 
         int score = 0;
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
             
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
@@ -175,7 +175,7 @@ public class ResponseSql {
             WHERE user_id = ? AND quiz_id = ? AND question_id = ?
         """;
 
-        try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection con =jdbcConnection.getConnection();
             
         	PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -203,7 +203,7 @@ public class ResponseSql {
 
         String sql = "SELECT opt1, opt2, opt3, opt4 FROM admin_answer WHERE question_id = ?";
 
-        try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection con = jdbcConnection.getConnection();
              
         	PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -229,7 +229,7 @@ public class ResponseSql {
         List<Integer> studentIds = new ArrayList<>();
         String sql = "SELECT DISTINCT user_id FROM student_response WHERE quiz_id = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, quizId);

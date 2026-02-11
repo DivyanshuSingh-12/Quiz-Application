@@ -23,9 +23,7 @@ public class StudentDataSql {
                      "gender VARCHAR(50) NOT NULL" +
                      ")";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER,
-                jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              Statement stmt = conn.createStatement()) {
 
             stmt.executeUpdate(sql);
@@ -44,7 +42,7 @@ public class StudentDataSql {
         String insertSQL = "INSERT INTO Studentdata (username, password, firstName, lastName, contact, gender) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD)) {
+        try (Connection conn = jdbcConnection.getConnection()) {
 
 
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
@@ -78,7 +76,7 @@ public class StudentDataSql {
 
         String sql = "SELECT * FROM Studentdata WHERE username = ? AND password = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn =jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -110,7 +108,7 @@ public class StudentDataSql {
 
         String sql = "DELETE FROM Studentdata WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -129,7 +127,7 @@ public class StudentDataSql {
         ObservableList<Student> students = FXCollections.observableArrayList();
         String sql = "SELECT * FROM Studentdata";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn =jdbcConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -155,7 +153,7 @@ public class StudentDataSql {
 public static boolean updateStudent(Student st) {
     String sql = "UPDATE Studentdata SET password = ?, firstName = ?, lastName = ?, contact = ?, gender = ? WHERE username = ?";
 
-    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
     		
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -180,7 +178,7 @@ public static boolean updateStudent(Student st) {
 public static boolean deleteStudentByUsername(String username) {
     String sql = "DELETE FROM Studentdata WHERE username = ?";
 
-    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, username);
@@ -205,7 +203,7 @@ public static void createUserQuizHideTable() {
                  "UNIQUE(user_id, quiz_id)" +  
                  ")";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          Statement stmt = conn.createStatement()) {
 
         stmt.executeUpdate(sql);
@@ -220,7 +218,7 @@ public static void createUserQuizHideTable() {
 	public static boolean isQuizHiddenForUser(int quizId, int userId) {
 		createUserQuizHideTable();
 	 String sql = "SELECT id FROM user_quiz_hide WHERE user_id = ? AND quiz_id = ?";
-	 try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	 try (Connection conn = jdbcConnection.getConnection();
 	      PreparedStatement ps = conn.prepareStatement(sql)) {
 	     ps.setInt(1, userId);
 	     ps.setInt(2, quizId);
@@ -237,7 +235,7 @@ public static void createUserQuizHideTable() {
 	public static boolean hideQuizForUser(int userId, int quizId) {
 		createUserQuizHideTable();
 	 String sql = "INSERT IGNORE INTO user_quiz_hide (user_id, quiz_id) VALUES (?, ?)";
-	 try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	 try (Connection conn = jdbcConnection.getConnection();
 	      PreparedStatement ps = conn.prepareStatement(sql)) {
 	     ps.setInt(1, userId);
 	     ps.setInt(2, quizId);
@@ -251,7 +249,7 @@ public static void createUserQuizHideTable() {
 	
 	public static String getUsernameById(int userId) {
 	    String sql = "SELECT username FROM Studentdata WHERE id = ?";
-	    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	    try (Connection conn = jdbcConnection.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setInt(1, userId);
 	        ResultSet rs = ps.executeQuery();
@@ -266,7 +264,7 @@ public static void createUserQuizHideTable() {
 
 	public static String getStudentFullNameById(int userId) {
 	    String sql = "SELECT firstName, lastName FROM Studentdata WHERE id = ?";
-	    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+	    try (Connection conn = jdbcConnection.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setInt(1, userId);
 	        ResultSet rs = ps.executeQuery();

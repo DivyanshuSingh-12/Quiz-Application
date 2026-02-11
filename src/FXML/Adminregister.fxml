@@ -13,13 +13,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminRegisterController">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #018790;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminRegisterController">
    <children>
       <VBox layoutX="503.0" layoutY="597.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="BOTTOM" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="1366.0" text="Admin Registration" textAlignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="BOTTOM" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="1366.0" text="Admin Registration" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="62.0" />
+                  <Font name="System Bold" size="72.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="1366.0">
@@ -48,12 +48,15 @@
                         </HBox>
                         <VBox prefHeight="93.0" prefWidth="720.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" wrappingWidth="184.27770614624023">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" wrappingWidth="184.27770614624023">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="AdminfirstName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0" />
+                              <TextField fx:id="AdminfirstName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></TextField>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" top="10.0" />
@@ -66,12 +69,15 @@
                         </VBox>
                         <VBox prefHeight="93.0" prefWidth="720.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" wrappingWidth="246.6777458190918">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" wrappingWidth="246.6777458190918">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="adminLastName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0" />
+                              <TextField fx:id="adminLastName" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></TextField>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -89,12 +95,15 @@
                         </VBox>
                         <VBox prefHeight="93.0" prefWidth="720.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" wrappingWidth="118.67773056030273">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" wrappingWidth="118.67773056030273">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="adminContact" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0" />
+                              <TextField fx:id="adminContact" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="666.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></TextField>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -106,12 +115,15 @@
                      <children>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="108.0" prefWidth="720.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="UserId" wrappingWidth="118.67773056030273">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="UserId" wrappingWidth="118.67773056030273">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="AdminuserID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="617.0" />
+                              <TextField fx:id="AdminuserID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="617.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></TextField>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" top="10.0" />
@@ -119,12 +131,15 @@
                         </VBox>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="93.0" prefWidth="720.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="118.67773056030273">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="118.67773056030273">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="passwordAdmin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="620.0" />
+                              <TextField fx:id="passwordAdmin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="620.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></TextField>
                            </children>
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -132,14 +147,14 @@
                         </VBox>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" prefWidth="706.0" spacing="2.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" wrappingWidth="118.67773056030273">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" wrappingWidth="118.67773056030273">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
                               </Text>
                               <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="686.0" spacing="20.0">
                                  <children>
-                                    <RadioButton fx:id="adminMale" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Male">
+                                    <RadioButton fx:id="adminMale" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Male" textFill="WHITE">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -147,12 +162,12 @@
                                           <ToggleGroup fx:id="AdminGender" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="adminFemale" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Female" toggleGroup="$AdminGender">
+                                    <RadioButton fx:id="adminFemale" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Female" textFill="WHITE" toggleGroup="$AdminGender">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </RadioButton>
-                                    <RadioButton fx:id="adminOther" layoutX="154.0" layoutY="10.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Other" toggleGroup="$AdminGender">
+                                    <RadioButton fx:id="adminOther" layoutX="154.0" layoutY="10.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="144.0" text="Other" textFill="WHITE" toggleGroup="$AdminGender">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -179,7 +194,6 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="1414.0" />
          </children>
       </VBox>
    </children>

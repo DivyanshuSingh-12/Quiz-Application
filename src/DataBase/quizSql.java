@@ -39,7 +39,7 @@ public class quizSql {
 
 
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
         		    		
              Statement stmt = conn.createStatement()) {
              stmt.executeUpdate(quizTable);
@@ -55,7 +55,7 @@ public class quizSql {
     public static int  insertQuiz(String title,String string) {
     	createQuizTables();
         String sql = "INSERT INTO quiz (title, admin_id) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
 
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, title);
@@ -102,7 +102,7 @@ public class quizSql {
     	        + ");";
 
 
-    	  try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    	  try (Connection conn = jdbcConnection.getConnection();
         		
             Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(questionTable);
@@ -123,7 +123,7 @@ public class quizSql {
         String sql = "INSERT INTO questions (quiz_id, ques, opt1, opt2, opt3, opt4) "
         		+ "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, quizId);
@@ -167,7 +167,7 @@ public class quizSql {
     		    + "REFERENCES questions(question_id) ON DELETE CASCADE" +
     		    ");";
 	        
-    	  try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    	  try (Connection conn = jdbcConnection.getConnection();
             Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(answerTable);
         } catch (Exception e) {
@@ -185,7 +185,7 @@ public static void insertAllAnswer(int questionId ,adminAnswer ans) {
     		+ "(question_id, opt1, opt2, opt3, opt4) "
     		+ "VALUES (?, ?, ?, ?, ?)";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);) {
+    try (Connection conn = jdbcConnection.getConnection()) {
 
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -208,7 +208,7 @@ public static ObservableList<String> getQuizzesByAdmin(String adminId) {
 
     String sql = "SELECT title FROM quiz WHERE admin_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, adminId);
@@ -230,7 +230,7 @@ public static ObservableList<quizSelection> getAllQuizzesForUser() {
     ObservableList<quizSelection> list = FXCollections.observableArrayList();
     String sql = "SELECT id, title, admin_id FROM quiz";  
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
 
@@ -254,7 +254,7 @@ public static ObservableList<quizSelection> getAllQuizzesForUser() {
 
 public static boolean deleteQuiz(int quizId) {
     String sql = "DELETE FROM quiz WHERE id = ?";
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setInt(1, quizId);
@@ -272,7 +272,7 @@ public static List<Question> getQuestionsByQuizId(int quizId) {
     List<Question> list = new ArrayList<>();
     String query = "SELECT * FROM questions WHERE quiz_id = ?";
 
-    try (Connection con = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection con = jdbcConnection.getConnection();
          PreparedStatement pst = con.prepareStatement(query)) {
 
         pst.setInt(1, quizId);
@@ -309,7 +309,7 @@ public static ObservableList<quizSelection> getAttemptedQuizzes(int userId) {
         WHERE sr.user_id = ?
     """;
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          
     	PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, userId);
@@ -333,7 +333,7 @@ public static int getTotalQuestions(int quizId) {
 
     String sql = "SELECT COUNT(*) FROM questions WHERE quiz_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
     		
         PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, quizId);
@@ -355,7 +355,7 @@ public static String getQuizTitleById(int quizId) {
     String title = null;
     String query = "SELECT title FROM quiz WHERE id = ?"; 
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(query)
     ) {
         ps.setInt(1, quizId);
@@ -377,10 +377,7 @@ public static List<Integer> getAllQuizIds() {
     List<Integer> quizIds = new ArrayList<>();
     String sql = "SELECT id FROM quiz";
 
-    try (Connection conn = DriverManager.getConnection(
-            jdbcConnection.dbURL,
-            jdbcConnection.USER,
-            jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          Statement st = conn.createStatement();
          ResultSet rs = st.executeQuery(sql)) {
 
@@ -400,7 +397,7 @@ public static List<Integer> getAllQuizIdsByAdmin(String adminId) {
     List<Integer> quizIds = new ArrayList<>();
     String sql = "SELECT id FROM quiz WHERE admin_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
 
         ps.setString(1, adminId);
@@ -419,7 +416,7 @@ public static List<Integer> getAllQuizIdsByAdmin(String adminId) {
 
 public static int executeIntQuery(String sql, String param) {
 
-    try (Connection conn = DriverManager.getConnection( jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          
         PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, param);
@@ -439,7 +436,7 @@ public static int executeIntQuery(String sql, String param) {
 
 public static int executeIntQuery(String sql) {
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          
     		
     	 Statement st = conn.createStatement();
@@ -459,7 +456,7 @@ public static int executeIntQuery(String sql) {
 
 public static double executeDoubleQuery(String sql, String param) {
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         
     	PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, param);
@@ -484,7 +481,7 @@ public static quizSelection getQuizByTitle(String title) {
     quizSelection quiz = null;
     String query = "SELECT * FROM quiz WHERE title = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(query)) {
 
         ps.setString(1, title);
@@ -508,7 +505,7 @@ public static quizSelection getQuizByTitle(String title) {
 public static boolean updateQuiz(int quizId, String title, String adminId) {
     String sql = "UPDATE quiz SET title = ?, admin_id = ? WHERE id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         
     	PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, title);
@@ -529,7 +526,7 @@ public static boolean updateQuiz(int quizId, String title, String adminId) {
 public static boolean updateOneQuestion(int questionId, Question q) {
     String sql = "UPDATE questions SET ques = ?, opt1 = ?, opt2 = ?, opt3 = ?, opt4 = ? WHERE question_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         
     	PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, q.getQues());
@@ -553,7 +550,7 @@ public static adminAnswer getAnswerByQuestionId(int questionId) {
     createAnswerTables();
     String sql = "SELECT * FROM admin_answer WHERE question_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         
     	PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, questionId);
@@ -579,7 +576,7 @@ public static void updateAllAnswer(int questionId, adminAnswer ans) {
     createAnswerTables();
     String sql = "UPDATE admin_answer SET opt1 = ?, opt2 = ?, opt3 = ?, opt4 = ? WHERE question_id = ?";
 
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
         
     	PreparedStatement pstmt = conn.prepareStatement(sql)) {
         pstmt.setBoolean(1, ans.getcorrectopt1());
@@ -601,7 +598,7 @@ public static void updateAllAnswer(int questionId, adminAnswer ans) {
 
 public static void deleteQuestionById(int questionId) {
     String sql = "DELETE FROM questions WHERE question_id = ?";
-    try ( Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+    try ( Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, questionId);
         ps.executeUpdate();
@@ -615,7 +612,7 @@ public static String getQuizStatus(int quizId) {
     String status = null;
     String sql = "SELECT status FROM quiz WHERE id = ?";
     
-    try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD);
+    try (Connection conn = jdbcConnection.getConnection();
          PreparedStatement ps = conn.prepareStatement(sql)) {
          
         ps.setInt(1, quizId);
@@ -636,7 +633,7 @@ public static String getQuizStatus(int quizId) {
 
 public static boolean closeQuiz(int quizId) {
  String sql = "UPDATE quiz SET status='CLOSED' WHERE id=?";
- try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+ try (Connection conn =jdbcConnection.getConnection();
       PreparedStatement ps = conn.prepareStatement(sql)) {
      ps.setInt(1, quizId);
      return ps.executeUpdate() > 0;
@@ -648,7 +645,7 @@ public static boolean closeQuiz(int quizId) {
 
 public static boolean openQuiz(int quizId) {
  String sql = "UPDATE quiz SET status='OPEN' WHERE id=?";
- try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+ try (Connection conn = jdbcConnection.getConnection();
       PreparedStatement ps = conn.prepareStatement(sql)) {
      ps.setInt(1, quizId);
      return ps.executeUpdate() > 0;

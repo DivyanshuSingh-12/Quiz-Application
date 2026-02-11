@@ -203,9 +203,9 @@ public class studentProfile implements Initializable {
         scoreAxis.setUpperBound(maxScore + 1);
         scoreAxis.setTickUnit(Math.max(1, (maxScore + 1) / 5.0));
 
-        performanceLine.getStylesheets().add(
-            getClass().getResource("/CSS/chartStyle.css").toExternalForm()
-        );
+        URL barCss = getClass().getResource("/CSS/chartStyle.css");
+        if (barCss != null) performanceLine.getStylesheets().add(barCss.toExternalForm());
+        else System.out.println("chartStyle.css not found for lineChart!");
     }
 
     
@@ -238,10 +238,11 @@ public class studentProfile implements Initializable {
         
         passSlice.getNode().setStyle("-fx-pie-color: #00B7B5;");
         failSlice.getNode().setStyle("-fx-pie-color: #018790;");
-        performancePie.getStylesheets().add(
-                getClass().getResource("/css/chartStyle.css").toExternalForm()
-            );
-        
+       
+        URL pieCss = getClass().getResource("/CSS/chartStyle.css");
+        if (pieCss != null) performancePie.getStylesheets().add(pieCss.toExternalForm());
+        else System.out.println("chartStyle.css not found for PieChart!");
+       
 
         performancePie.applyCss();
         performancePie.layout();

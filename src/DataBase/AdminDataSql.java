@@ -23,8 +23,7 @@ public class AdminDataSql {
             "Password VARCHAR(200) NOT NULL, " +
             "ImagePath VARCHAR(500)" +
             ")";
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,
-                jdbcConnection.USER, jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(CreateAdminDataTable);
         } catch (Exception e) {
@@ -40,7 +39,7 @@ public class AdminDataSql {
         		+ "(UserName, FirstName, LastName, Contact, Gender, Password, ImagePath) "
         		+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER, jdbcConnection.PASSWORD)) {
+        try (Connection conn = jdbcConnection.getConnection()) {
 
             // 1. Check if username already exists
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSQL)) {
@@ -77,7 +76,7 @@ public class AdminDataSql {
 
         String sql = "SELECT * FROM AdminData WHERE UserName = ? AND Password = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL, jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -109,7 +108,7 @@ public class AdminDataSql {
 
         String sql = "UPDATE AdminData SET FirstName=?, LastName=?, Contact=?, Gender=?, Password=?, ImagePath=? WHERE UserName=?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, admin.getFirstName());
@@ -132,7 +131,7 @@ public class AdminDataSql {
 
         String sql = "DELETE FROM AdminData WHERE UserName = ?";
 
-        try (Connection conn = DriverManager.getConnection(jdbcConnection.dbURL,jdbcConnection.USER,jdbcConnection.PASSWORD);
+        try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, userId);

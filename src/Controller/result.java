@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class result {
+public class Result {
 
     @FXML private ListView<quizSelection> resultList;
     @FXML private RadioButton openRadio;
@@ -112,7 +112,7 @@ public class result {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/separateResult.fxml"));
             Parent root = loader.load();
             separateResult controller = loader.getController();
-            controller.loadQuizResul(quiz.getId(), quiz.getTitle());
+            controller.loadQuizResult(quiz.getId(), quiz.getTitle());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

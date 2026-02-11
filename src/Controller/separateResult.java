@@ -35,7 +35,7 @@ public class separateResult {
          scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
     }
 
-    public void loadQuizResul(int quizId, String title) {
+    public void loadQuizResult(int quizId, String title) {
         this.currentQuizId = quizId;
         quizTitle.setText(title);
         loadResults(quizId);
