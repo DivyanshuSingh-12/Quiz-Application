@@ -18,7 +18,7 @@ public class Test {
     @FXML private Label Question;
     @FXML private RadioButton resOpt1, resOpt2, resOpt3, resOpt4;
     @FXML private Button nextBtn, prevBtn, submitBtn;
-
+    @FXML private Label questionNumber;
     private List<Question> questions;
     private int currentIndex = 0;
     private int quizId;
@@ -57,7 +57,7 @@ public class Test {
     // ==================== SHOW QUESTION ====================
     private void showQuestion(int index) {
         if (questions.isEmpty()) return;
-
+        questionNumber.setText("Question " + (index + 1) + " / " + questions.size());
         Question q = questions.get(index);
         Question.setText(q.getQues());
         resOpt1.setText(q.getOpttext1());

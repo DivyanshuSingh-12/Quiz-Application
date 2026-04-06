@@ -62,6 +62,7 @@ public class jdbcConnection {
 }
 
 
+
 //
 //package DataBase;
 //
@@ -72,62 +73,61 @@ public class jdbcConnection {
 //
 //public class jdbcConnection {
 //
-//  public static final String URL = "jdbc:mysql://sql12.freesqldatabase.com:3306?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-//  public static final String USER = "sql12816563";
-//  public static final String PASSWORD = "g2zVfL6pE8";
-//  public static String dbURL;
+//public static final String URL = "jdbc:mysql://sql12.freesqldatabase.com:3306?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+//public static final String USER = "sql12816563";
+//public static final String PASSWORD = "g2zVfL6pE8";
+//public static String dbURL;
 //
-//  private static Connection persistentConnection;
+//private static Connection persistentConnection;
 //
-//  public static Connection getConnection() throws SQLException {
-//      if (persistentConnection == null || persistentConnection.isClosed()) {
-//          persistentConnection = DriverManager.getConnection(dbURL, USER, PASSWORD);
-//      }
-//      return persistentConnection;
-//  }
-//
-//  public static void closeConnection() {
-//      if (persistentConnection != null) {
-//          try {
-//              if (!persistentConnection.isClosed()) {
-//                  persistentConnection.close();
-//                  System.out.println("Online MySQL connection closed");
-//              }
-//          } catch (SQLException e) {
-//              e.printStackTrace();
-//          }
-//      }
-//  }
-//
-//  public static void createDatabase() {
-//      try {
-//          Class.forName("com.mysql.cj.jdbc.Driver");
-//          try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-//               Statement stmt = conn.createStatement()) {
-//              String sql = "CREATE DATABASE IF NOT EXISTS sql12816563";
-//              stmt.executeUpdate(sql);
-//          }
-//
-//          dbURL = "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12816563?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-//
-//          createTables();
-//
-//      } catch (Exception e) {
-//          e.printStackTrace();
-//      }
-//  }
-//
-//  private static void createTables() {
-//      quizSql.createQuizTables();
-//      quizSql.createQuestionTables();
-//      quizSql.createAnswerTables();
-//      ResponseSql.createStudentResponseTable();
-//      ResponseSql.createQuizAttemptTable();
-//      StudentDataSql.createStudentTable();
-//      StudentDataSql.createUserQuizHideTable();
-//  }
+//public static Connection getConnection() throws SQLException {
+//    if (persistentConnection == null || persistentConnection.isClosed()) {
+//        persistentConnection = DriverManager.getConnection(dbURL, USER, PASSWORD);
+//    }
+//    return persistentConnection;
 //}
-
+//
+//public static void closeConnection() {
+//    if (persistentConnection != null) {
+//        try {
+//            if (!persistentConnection.isClosed()) {
+//                persistentConnection.close();
+//                System.out.println("Online MySQL connection closed");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//}
+//
+//public static void createDatabase() {
+//    try {
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+//             Statement stmt = conn.createStatement()) {
+//            String sql = "CREATE DATABASE IF NOT EXISTS sql12816563";
+//            stmt.executeUpdate(sql);
+//        }
+//
+//        dbURL = "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12816563?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+//
+//        createTables();
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//}
+//
+//private static void createTables() {
+//    quizSql.createQuizTables();
+//    quizSql.createQuestionTables();
+//    quizSql.createAnswerTables();
+//    ResponseSql.createStudentResponseTable();
+//    ResponseSql.createQuizAttemptTable();
+//    StudentDataSql.createStudentTable();
+//    StudentDataSql.createUserQuizHideTable();
+//}
+//}
 
 
 

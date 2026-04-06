@@ -85,64 +85,62 @@ public class AdminRegisterController {
 
 
     
-    
-    
-    
     @FXML
     private void AdminRegisterBtn() {
 
-       String firstName = AdminfirstName.getText();
-       String lastName = adminLastName.getText();
-       String contact = adminContact.getText();
-       String  userId = AdminuserID.getText();
-       String  password = passwordAdmin.getText();
-        RadioButton selectedGender =(RadioButton) AdminGender.getSelectedToggle();
+        String firstName = AdminfirstName.getText();
+        String lastName = adminLastName.getText();
+        String contact = adminContact.getText();
+        String userId = AdminuserID.getText();
+        String password = passwordAdmin.getText();
+        RadioButton selectedGender = (RadioButton) AdminGender.getSelectedToggle();
 
+        if (firstName.isEmpty() || lastName.isEmpty() || contact.isEmpty() ||
+            userId.isEmpty() || password.isEmpty() || selectedGender == null) {
 
-        if (firstName.isEmpty() || lastName.isEmpty() || contact.isEmpty() || userId.isEmpty() ||password.isEmpty() || selectedGender == null) {
-            showAlert("Validation Error", "Please fill all fields",false);
+            showAlert("Validation Error", "Please fill all fields", false);
             return;
         }
-    
-		    String gender = selectedGender.getText();
-		    String imagePath;
-		    if (selectedImageFile != null) {
-		        imagePath = selectedImageFile.toURI().toString();
-		    } else {
-		        InputStream defaultImage = getClass().getResourceAsStream("/defaultprofile.png");
-		        if (defaultImage != null) {
-		            imagePath = getClass().getResource("/defaultprofile.png").toExternalForm();
-		        } else {
-		            imagePath = ""; 
-		            System.out.println("Default profile image not found, using empty path");
-		        }
-    
-        	
-        	jdbcConnection.createDatabase();
-        	AdminDataSql.CreateAdminDataTable();
-            Admin adm = new Admin(firstName,lastName,contact,userId,password,gender,imagePath);
-            
-            boolean inserted = AdminDataSql.insertAdmin(adm);
-            
-            if (inserted) {
-            	 showAlert("Success", "Admin registered successfully", true);
-                clearForm();
-            } else {
-                // Check if username already exists
-                if (AdminDataSql.flag == false) {
-                    alertSql();
-                } else {
-                    showAlert("Registration Failed", "Username '" + userId + "' already exists. Please choose a different username.",false);
-                }
-            }
-            
- 
-
-            }
+        
+        if (!isStrongPassword(password)) {
+            showAlert("Weak Password",
+                    "Password must be at least 8 characters long and include:\n"
+                  + "- 1 uppercase letter\n"
+                  + "- 1 lowercase letter\n"
+                  + "- 1 number\n"
+                  + "- 1 special character",
+                    false);
+            return;
         }
 
+        String gender = selectedGender.getText();
+        String imagePath;
+        if (selectedImageFile != null) {
+            imagePath = selectedImageFile.toURI().toString();
+        } else {
+            imagePath = getClass().getResource("/defaultprofile.png").toExternalForm();
+        }
+        jdbcConnection.createDatabase();
+        AdminDataSql.CreateAdminDataTable();
+
+        Admin adm = new Admin(firstName, lastName, contact, userId, password, gender, imagePath);
+
+        boolean inserted = AdminDataSql.insertAdmin(adm);
+
+        if (inserted) {
+            showAlert("Success", "Admin registered successfully", true);
+            clearForm();
+        } else {
+            if (AdminDataSql.flag == false) {
+                alertSql();
+            } else {
+                showAlert("Registration Failed",
+                        "Username '" + userId + "' already exists. Please choose a different username.", false);
+            }
+        }
+    }
     
- 
+
     private void alertSql() {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Database Error");
@@ -162,8 +160,7 @@ public class AdminRegisterController {
             AdminGender.getSelectedToggle().setSelected(false);
         }
 
-        //adminProfile.setImage(new Image(getClass().getResourceAsStream("/defaultprofile.jpg")));
-        
+               
         adminProfile.setImage(
                 new Image(getClass().getResourceAsStream(DEFAULT_PROFILE))
             );
@@ -209,6 +206,10 @@ public class AdminRegisterController {
         }
     }
 
+    private boolean isStrongPassword(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&._#])[A-Za-z\\d@$!%*?&._#]{8,}$";
+        return password.matches(passwordPattern);
+    }
 
 
 

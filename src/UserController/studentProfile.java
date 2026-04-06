@@ -26,6 +26,7 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class studentProfile implements Initializable {
@@ -120,6 +121,9 @@ public class studentProfile implements Initializable {
     @FXML
     private void deleteBtnFun() {
         String username = userNmae.getText();
+        boolean confirmDelete = showDeleteConfirmation();
+
+        if (!confirmDelete) return;
         boolean deleted = StudentDataSql.deleteStudentByUsername(username);
 
         if (deleted) {
@@ -263,7 +267,21 @@ public class studentProfile implements Initializable {
 
 
 
+    private boolean showDeleteConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Account");
+        alert.setHeaderText("Are you sure you want to delete your account?");
+        alert.setContentText("This action cannot be undone.");
 
+        ButtonType yesBtn = new ButtonType("Yes, Delete");
+        ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(yesBtn, cancelBtn);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == yesBtn;
+    }
 
 
 }

@@ -17,7 +17,10 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -32,6 +35,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class adminHome implements Initializable {
@@ -116,14 +120,24 @@ public class adminHome implements Initializable {
     private Image getAdminImage(String path) {
         try {
             if (path != null && !path.isEmpty()) {
-                if (path.startsWith("/")) { 
+                // Case 1: stored as file URI
+                if (path.startsWith("file:")) {
+                    return new Image(path);
+                }
+                // Case 2: stored as resource path
+                if (path.startsWith("/")) {
                     InputStream is = getClass().getResourceAsStream(path);
-                    if (is != null) return new Image(is);
-                } else { 
-                    File file = new File(path);
-                    if (file.exists()) return new Image(file.toURI().toString());
+                    if (is != null) {
+                        return new Image(is);
+                    }
+                }
+                // Case 3: stored as normal file path
+                File file = new File(path);
+                if (file.exists()) {
+                    return new Image(file.toURI().toString());
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +179,11 @@ public class adminHome implements Initializable {
     private void deleteBtnFun(ActionEvent event) {
          Admin admin = AdminLoginSession.loggedAdmin;
          if (admin == null) return;
-           boolean deleted =  AdminDataSql.deleteAdmin(admin.getUserId());
+        
+         boolean confirmDelete = showDeleteConfirmation();
+         if (!confirmDelete) return;
+          
+         boolean deleted =  AdminDataSql.deleteAdmin(admin.getUserId());
 
            if (deleted) {
                showUpdateNotification("Account deleted!");
@@ -378,6 +396,23 @@ public class adminHome implements Initializable {
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(e -> updatenotification.setVisible(false));
         pause.play();
+    }
+    
+    
+    private boolean showDeleteConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Account");
+        alert.setHeaderText("Are you sure you want to delete your account?");
+        alert.setContentText("This action cannot be undone.");
+
+        ButtonType yesBtn = new ButtonType("Yes, Delete");
+        ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(yesBtn, cancelBtn);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == yesBtn;
     }
 
 }
